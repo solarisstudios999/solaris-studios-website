@@ -30,7 +30,7 @@ const numbers = [
   { value: String(studio.yearFounded), label: "Year founded" },
   { value: "5+", label: "Projects shipped" },
   { value: "5", label: "Disciplines" },
-  { value: "4", label: "People in studio" },
+  { value: "3", label: "People in studio" },
 ];
 
 export default function AboutPage() {
