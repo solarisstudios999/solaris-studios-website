@@ -1,23 +1,17 @@
-import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
+import { Bricolage_Grotesque } from "next/font/google";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ExperienceEffects from "@/components/ExperienceEffects";
 import { studio } from "@/lib/data";
 import "./globals.css";
 
-/* Self-hosted at build time by next/font - no request to Google on page load,
-   and a metric-matched fallback so the swap costs no layout shift. */
+/* Display face only. Body stays on Satoshi, which is already self-hosted in
+   globals.css - so this adds one font to the page rather than two. */
 const display = Bricolage_Grotesque({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-display",
   axes: ["opsz"],
-});
-
-const sans = Instrument_Sans({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-sans",
 });
 
 const siteUrl = "https://solarisstudios.co.in";
@@ -115,7 +109,7 @@ const organizationLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+    <html lang="en" className={display.variable}>
       <body>
         <script
           type="application/ld+json"
