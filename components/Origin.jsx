@@ -1,90 +1,94 @@
-"use client";
-
 import Image from "next/image";
-import { useState } from "react";
 
 /**
- * Two photographs of the same two people, twenty years apart, sharing one
- * frame. Drag the handle to move between them.
+ * Two photographs twenty years apart, shown as a pair rather than a
+ * before/after wipe.
  *
- * The control is a real <input type="range">, not a div listening for pointer
- * events - so it is keyboard operable with arrow keys, Home and End for free,
- * and announces itself to assistive tech without any extra wiring. It sits
- * transparent over the whole frame, so dragging anywhere in the image works.
+ * A wipe needs both frames to share a composition. These do not - one is a
+ * class of fifteen where the two of them are faces in the back row, the other
+ * is a close portrait. Forcing them into one frame would read as two unrelated
+ * pictures. Shown side by side, the crowd becomes the point: two of these kids
+ * started a studio.
  *
- * `photos` is filtered on the server to those that exist on disk, so the
- * section renders a designed placeholder rather than breaking while the
- * pictures are still being taken.
+ * The ring marking them is drawn in SVG over the image in percentage
+ * coordinates, so it tracks the photo at every size. `vector-effect` keeps the
+ * stroke even despite the non-uniform viewBox.
+ *
+ * Photos are resolved against disk on the server, so this degrades to a
+ * designed placeholder rather than breaking if a file is missing.
  */
 export default function Origin({ origin, photos }) {
-  const [pos, setPos] = useState(50);
-  const ready = photos.then && photos.now;
+  const { then: thenPhoto, now: nowPhoto } = photos;
+  const ring = origin.ring;
 
   return (
     <div className="origin">
-      <div className="origin__figure">
-        {ready ? (
-          <>
-            <div className="origin__frame" style={{ "--pos": `${pos}%` }}>
-              {/* the later photo is the base layer; the earlier one is clipped over it */}
-              <Image
-                src={photos.now.src}
-                alt={photos.now.alt}
-                fill
-                sizes="(min-width: 1080px) 620px, 92vw"
-                quality={82}
-                className="origin__img"
-              />
-              <div className="origin__clip">
+      <div className="origin__plates">
+        <figure className="origin__plate origin__plate--then">
+          <div className="origin__frame origin__frame--wide">
+            {thenPhoto ? (
+              <>
                 <Image
-                  src={photos.then.src}
-                  alt={photos.then.alt}
+                  src={thenPhoto.src}
+                  alt={thenPhoto.alt}
                   fill
-                  sizes="(min-width: 1080px) 620px, 92vw"
+                  sizes="(min-width: 1080px) 660px, 92vw"
                   quality={82}
                   className="origin__img"
                 />
-              </div>
-
-              <span className="origin__seam" aria-hidden="true" />
-              <span className="origin__year origin__year--then" aria-hidden="true">
-                {origin.metYear}
-              </span>
-              <span className="origin__year origin__year--now" aria-hidden="true">
-                {origin.nowYear}
-              </span>
-
-              <input
-                type="range"
-                min="0"
-                max="100"
-                step="1"
-                value={pos}
-                onChange={(event) => setPos(Number(event.target.value))}
-                className="origin__range"
-                aria-label={`Move between ${origin.metYear} and ${origin.nowYear}`}
-              />
-            </div>
-            <p className="origin__hint">
-              Drag to move between {origin.metYear} and {origin.nowYear}
-            </p>
-          </>
-        ) : (
-          <div className="origin__frame origin__frame--empty">
-            <p className="eyebrow">Photographs pending</p>
-            <p className="origin__placeholder-note">
-              Drop then.jpg and now.jpg into /public/assets/about/
-            </p>
+                <svg
+                  className="origin__ring"
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                >
+                  <ellipse
+                    cx={ring.cx}
+                    cy={ring.cy}
+                    rx={ring.rx}
+                    ry={ring.ry}
+                    vectorEffect="non-scaling-stroke"
+                  />
+                </svg>
+              </>
+            ) : (
+              <p className="origin__placeholder-note">
+                Missing: /public{origin.photos[0].src}
+              </p>
+            )}
+            <span className="origin__year">{origin.metYear}</span>
           </div>
-        )}
+          <figcaption className="origin__caption">{origin.thenCaption}</figcaption>
+        </figure>
+
+        <figure className="origin__plate origin__plate--now">
+          <div className="origin__frame origin__frame--tall">
+            {nowPhoto ? (
+              <Image
+                src={nowPhoto.src}
+                alt={nowPhoto.alt}
+                fill
+                sizes="(min-width: 1080px) 320px, 92vw"
+                quality={82}
+                className="origin__img"
+              />
+            ) : (
+              <p className="origin__placeholder-note">
+                Missing: /public{origin.photos[1].src}
+              </p>
+            )}
+            <span className="origin__year">{origin.nowYear}</span>
+          </div>
+          <figcaption className="origin__caption">{origin.nowCaption}</figcaption>
+        </figure>
       </div>
 
       <div className="origin__body">
-        <p className="origin__years">
-          {origin.nowYear - origin.metYear}
-        </p>
-        <p className="origin__lead">{origin.lead}</p>
-        <p className="origin__note">{origin.note}</p>
+        <p className="origin__years">{origin.nowYear - origin.metYear}</p>
+        <div>
+          <p className="origin__lead">{origin.lead}</p>
+          <p className="origin__note">{origin.note}</p>
+        </div>
       </div>
     </div>
   );

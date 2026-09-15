@@ -4206,151 +4206,122 @@ body:has(.contact-screen) {
 
 /* ============================================================
    ORIGIN
-   Two photographs twenty years apart sharing one frame, with a
-   range input as the divider so it is keyboard operable and
-   announced without extra wiring.
+   Two photographs twenty years apart, shown as a pair. The class
+   photo carries a drawn ring marking the two of them.
    ============================================================ */
 
 .origin {
   display: grid;
   gap: 40px;
-  align-items: center;
 }
 
-@media (min-width: 1080px) {
-  .origin {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    gap: 64px;
+.origin__plates {
+  display: grid;
+  gap: 20px;
+}
+
+@media (min-width: 900px) {
+  .origin__plates {
+    /* the crowd needs room; the portrait does not */
+    grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
   }
 }
 
 .origin__frame {
-  --pos: 50%;
   position: relative;
-  aspect-ratio: 4 / 3;
   border-radius: 14px;
   overflow: hidden;
   background: var(--soft-black);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.9);
+  display: grid;
+  place-content: center;
 }
 
-.origin__img {
-  object-fit: cover;
-}
+.origin__frame--wide { aspect-ratio: 1800 / 954; }
+.origin__frame--tall { aspect-ratio: 1200 / 1408; }
 
-/* The earlier photograph sits over the later one, revealed left of the seam. */
-.origin__clip {
-  position: absolute;
-  inset: 0;
-  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
-}
+.origin__img { object-fit: cover; }
 
-.origin__seam {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: var(--pos);
-  width: 2px;
-  margin-left: -1px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 14px rgba(0, 0, 0, 0.6);
-  pointer-events: none;
-}
-
-.origin__seam::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 40px;
-  height: 40px;
-  transform: translate(-50%, -50%);
-  border-radius: 999px;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(2px);
-}
-
-.origin__year {
-  position: absolute;
-  bottom: 14px;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.6);
-  font-size: var(--t-label);
-  font-weight: 700;
-  letter-spacing: var(--track-caps-wide);
-  color: var(--white);
-  pointer-events: none;
-}
-
-.origin__year--then { left: 14px; }
-.origin__year--now { right: 14px; }
-
-/* Transparent, covers the frame, so the whole image is draggable - and it is
-   a real range input, so arrows/Home/End work with no extra code. */
-.origin__range {
+/* Percentage coordinates, so it tracks the photo at any size. */
+.origin__ring {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  margin: 0;
-  opacity: 0;
-  cursor: ew-resize;
-  -webkit-appearance: none;
-  appearance: none;
-  background: transparent;
+  pointer-events: none;
 }
 
-.origin__range:focus-visible + .origin__hint,
-.origin__frame:focus-within {
-  outline: 2px solid var(--red);
-  outline-offset: 3px;
+.origin__ring ellipse {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 2.5;
+  opacity: 0.95;
 }
 
-.origin__hint {
-  margin-top: 14px;
+.origin__year {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.66);
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: var(--track-caps-wide);
+  color: var(--white);
+}
+
+.origin__caption {
+  margin-top: 12px;
   font-size: var(--t-label);
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
   color: rgba(230, 230, 230, 0.55);
 }
 
-.origin__frame--empty {
-  display: grid;
-  place-content: center;
-  gap: 10px;
-  text-align: center;
-  padding: 24px;
-}
-
 .origin__placeholder-note {
+  padding: 24px;
+  text-align: center;
   font-size: var(--t-label);
   color: rgba(230, 230, 230, 0.55);
 }
 
+.origin__body {
+  display: grid;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .origin__body {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 48px;
+  }
+}
+
 .origin__years {
   font-family: var(--font-display), "Satoshi", Arial, sans-serif;
-  font-size: clamp(5rem, 14vw, 11rem);
+  font-size: clamp(4.5rem, 11vw, 9rem);
   font-weight: 800;
-  line-height: 0.82;
+  line-height: 0.8;
   letter-spacing: -0.05em;
   color: var(--white);
 }
 
 .origin__lead {
-  margin-top: 18px;
   font-size: var(--t-lead);
   line-height: 1.5;
   color: var(--white);
-  max-width: 26ch;
+  max-width: 34ch;
 }
 
 .origin__note {
-  margin-top: 22px;
-  padding-top: 20px;
+  margin-top: 18px;
+  padding-top: 18px;
   border-top: 1px solid var(--line);
   color: var(--paragraph);
-  max-width: 46ch;
+  max-width: 52ch;
 }

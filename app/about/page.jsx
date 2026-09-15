@@ -103,7 +103,7 @@ export default function AboutPage() {
       <Reveal as="section" className="section" id="about-origin" aria-labelledby="origin-title">
         <div className="section__head">
           <p className="eyebrow">03 / Origin</p>
-          <h2 id="origin-title">Two people, one of them since class 1.</h2>
+          <h2 id="origin-title">Two of these kids started a studio.</h2>
         </div>
         <Origin origin={origin} photos={originPhotos} />
       </Reveal>
