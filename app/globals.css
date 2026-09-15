@@ -4047,29 +4047,60 @@ body:has(.contact-screen) {
 .footer-ghost__sol {
   position: absolute;
   left: 50%;
-  bottom: 0.70em;
+  /* Sits clear of the stem, where a real tittle would fall. */
+  bottom: 0.84em;
   width: 0;
   height: 0;
 }
 
+/* Shaded as a sphere rather than a flat disc: a specular highlight up
+   and left, the body falling to a dark limb, an inset terminator on the
+   unlit side, and a faint lit rim opposite it. */
 .footer-ghost__sun {
   position: absolute;
   left: 0;
   top: 0;
-  width: 0.15em;
-  height: 0.15em;
+  width: 0.155em;
+  height: 0.155em;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: radial-gradient(
-    circle at 36% 32%,
-    #ffe6bd 0%,
-    #ffb057 30%,
-    var(--red) 62%,
-    #8e1a11 100%
-  );
+  background:
+    radial-gradient(
+      circle at 30% 26%,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 244, 214, 0.75) 7%,
+      rgba(255, 255, 255, 0) 26%
+    ),
+    radial-gradient(
+      circle at 38% 33%,
+      #ffe3ab 0%,
+      #ffab4a 26%,
+      #ff6a2a 52%,
+      var(--red) 74%,
+      #6d1009 100%
+    );
   box-shadow:
-    0 0 0.04em rgba(255, 176, 87, 0.95),
-    0 0 0.14em rgba(255, 59, 48, 0.6);
+    inset -0.018em -0.024em 0.05em rgba(74, 8, 4, 0.75),
+    inset 0.014em 0.016em 0.03em rgba(255, 226, 170, 0.45),
+    0 0 0.05em rgba(255, 160, 70, 0.9),
+    0 0 0.2em rgba(255, 59, 48, 0.55),
+    0 0 0.42em rgba(255, 59, 48, 0.22);
+}
+
+/* Limb darkening: a real sphere loses light toward its edge. This is
+   what separates a shaded ball from a flat disc with a highlight. */
+.footer-ghost__sun::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 33%,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 42%,
+    rgba(92, 16, 6, 0.35) 76%,
+    rgba(48, 6, 2, 0.72) 100%
+  );
 }
 
 .footer-ghost__orbit {
