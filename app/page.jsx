@@ -1,9 +1,9 @@
 import Link from "next/link";
 import MagneticButton from "@/components/MagneticButton";
 import Marquee from "@/components/Marquee";
-import ProjectVisual from "@/components/ProjectVisual";
 import Reveal from "@/components/Reveal";
 import SeamlessHeroVideo from "@/components/SeamlessHeroVideo";
+import CaseStudy from "@/components/CaseStudy";
 import { marqueeWords, processStages, projects, services, testimonials } from "@/lib/data";
 
 export default function HomePage() {
@@ -81,29 +81,7 @@ export default function HomePage() {
           <h2 id="work-title">Creative systems built to hold attention.</h2>
         </div>
         {projects.length > 0 ? (
-          <div className="work-grid">
-            {projects.slice(0, 3).map((project, index) => {
-              const target = project.url || "/portfolio";
-              const external = Boolean(project.url);
-              return (
-                <Link
-                  className={`work-card ${index === 0 ? "work-card--feature" : ""}`}
-                  href={target}
-                  target={external ? "_blank" : undefined}
-                  rel={external ? "noreferrer" : undefined}
-                  key={`${project.title}-${index}`}
-                >
-                  <ProjectVisual project={project} index={index} />
-                  <span className="work-card__meta">
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    <span>{project.status}</span>
-                  </span>
-                  <h3>{project.title}</h3>
-                  <p>{project.summary}</p>
-                </Link>
-              );
-            })}
-          </div>
+          <CaseStudy project={projects[0]} />
         ) : (
           <p className="page-lede">New work is in production — coming soon.</p>
         )}

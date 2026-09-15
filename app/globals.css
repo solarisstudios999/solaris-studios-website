@@ -3733,3 +3733,236 @@ body:has(.contact-screen) {
     display: none !important;
   }
 }
+
+/* ============================================================
+   CASE PANEL
+   One treatment for every launch. Driven entirely by an entry in
+   `projects` (lib/data.js) — a new client needs data and images,
+   not new CSS.
+
+   The client's work is warm and light; this site is black. The
+   frame is ours, the contents are theirs, and the two never bleed
+   into each other.
+   ============================================================ */
+
+.case {
+  display: grid;
+  gap: 40px;
+  align-items: start;
+}
+
+@media (min-width: 1080px) {
+  .case {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 64px;
+    align-items: center;
+  }
+}
+
+/* ---- the frame ---- */
+
+.case__frame {
+  border: 1px solid rgba(255, 59, 48, 0.22);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--soft-black);
+  box-shadow:
+    0 24px 60px -28px rgba(0, 0, 0, 0.9),
+    0 0 42px -18px var(--red-glow);
+  transition: box-shadow 0.5s var(--ease), transform 0.5s var(--ease);
+}
+
+@media (hover: hover) and (min-width: 1080px) {
+  .case__frame:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 32px 70px -30px rgba(0, 0, 0, 0.95),
+      0 0 64px -14px var(--red-glow);
+  }
+}
+
+.case__bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 36px;
+  padding-inline: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.case__dots {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+
+.case__dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 59, 48, 0.42);
+}
+
+.case__url {
+  font-size: 0.75rem;
+  letter-spacing: var(--track-caps);
+  color: rgba(230, 230, 230, 0.66);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* The path changes with the screen, so hold the row steady. */
+  font-variant-numeric: tabular-nums;
+}
+
+.case__screen {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--soft-black);
+}
+
+.case__screen img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+
+.case__screen img[data-active="true"] {
+  opacity: 1;
+}
+
+/* ---- the switcher ---- */
+
+.case__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.case__tab {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: var(--track-caps-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    color 0.25s var(--ease);
+}
+
+.case__tab:hover {
+  border-color: rgba(255, 59, 48, 0.5);
+  color: var(--white);
+}
+
+.case__tab[aria-selected="true"] {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--black);
+}
+
+/* ---- the words ---- */
+
+.case__title {
+  margin-top: 10px;
+  font-size: clamp(1.5rem, 1rem + 1.7vw, 2.25rem);
+  line-height: 1.08;
+  letter-spacing: var(--track-tight);
+  text-transform: uppercase;
+}
+
+.case__lines {
+  margin-top: 28px;
+}
+
+.case__line + .case__line {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.case__line dt {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: var(--track-caps-wide);
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+
+.case__line dd {
+  margin: 0;
+  color: var(--paragraph);
+  line-height: 1.65;
+  max-width: 54ch;
+}
+
+.case__meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.case__meta dt {
+  font-size: 0.6875rem;
+  letter-spacing: var(--track-caps-wide);
+  text-transform: uppercase;
+  color: rgba(230, 230, 230, 0.55);
+  margin-bottom: 6px;
+}
+
+.case__meta dd {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.case__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  margin-top: 32px;
+}
+
+/* Scoped to this panel rather than changing the shared .text-link, which is
+   used across the site. The site-wide version is 22px tall and worth raising
+   separately. */
+.case__actions .text-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* Stacked panels on the work archive. */
+.case + .case {
+  margin-top: clamp(64px, 9vw, 120px);
+  padding-top: clamp(64px, 9vw, 120px);
+  border-top: 1px solid var(--line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case__frame,
+  .case__screen img {
+    transition: none;
+  }
+  .case__frame:hover {
+    transform: none;
+  }
+}
