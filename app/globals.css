@@ -605,18 +605,11 @@ p {
 }
 
 .hero h1 {
-  max-width: 760px;
+  max-width: 940px;
   margin-top: 18px;
   color: var(--white);
-  font-size: clamp(3rem, 7.2vw, 5.4rem);
+  font-size: clamp(3.35rem, 8.4vw, 6.6rem);
   letter-spacing: -0.025em;
-}
-
-/* The hero headline is uppercased globally by the h1,h2,h3 rule. This opts
-   the closing word back out, so the line lands on "inevitable" in its own
-   voice instead of shouting it. Hero only - nothing else changes. */
-.hero__lower {
-  text-transform: none;
 }
 
 .red-rule {
@@ -3253,7 +3246,7 @@ body:has(.contact-screen) {
   }
 
   .hero h1 {
-    font-size: 4.1rem;
+    font-size: 4.6rem;
   }
 
   .section--intro,
@@ -4036,3 +4029,105 @@ body:has(.contact-screen) {
   color: rgba(230, 230, 230, 0.6);
 }
 
+
+/* ---- the sun in the wordmark's i -------------------------------
+   The "i" is set as a dotless glyph and a small sun takes the place
+   of its tittle, with asteroids orbiting. Every dimension is in em,
+   so the whole assembly scales with the wordmark from 320px on
+   desktop down to 90px on phones without retuning.
+   ---------------------------------------------------------------- */
+
+.footer-ghost__i {
+  position: relative;
+  display: inline-block;
+}
+
+/* A zero-size anchor sitting exactly where the tittle would be.
+   Everything else centres on it. */
+.footer-ghost__sol {
+  position: absolute;
+  left: 50%;
+  bottom: 0.70em;
+  width: 0;
+  height: 0;
+}
+
+.footer-ghost__sun {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0.15em;
+  height: 0.15em;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 36% 32%,
+    #ffe6bd 0%,
+    #ffb057 30%,
+    var(--red) 62%,
+    #8e1a11 100%
+  );
+  box-shadow:
+    0 0 0.04em rgba(255, 176, 87, 0.95),
+    0 0 0.14em rgba(255, 59, 48, 0.6);
+}
+
+.footer-ghost__orbit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  border: 0.004em solid rgba(255, 255, 255, 0.12);
+  transform: translate(-50%, -50%);
+  animation: ghost-orbit 16s linear infinite;
+}
+
+/* The asteroid rides the top of its ring. */
+.footer-ghost__orbit i {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 0.022em;
+  height: 0.022em;
+  margin: -0.011em 0 0 -0.011em;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.footer-ghost__orbit--1 {
+  width: 0.28em;
+  height: 0.28em;
+  animation-duration: 9s;
+}
+
+.footer-ghost__orbit--2 {
+  width: 0.42em;
+  height: 0.42em;
+  animation-duration: 15s;
+  animation-direction: reverse;
+}
+
+.footer-ghost__orbit--3 {
+  width: 0.58em;
+  height: 0.58em;
+  animation-duration: 24s;
+}
+
+.footer-ghost__orbit--3 i {
+  width: 0.016em;
+  height: 0.016em;
+  margin: -0.008em 0 0 -0.008em;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+@keyframes ghost-orbit {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Sun and rings stay; only the travel stops. */
+  .footer-ghost__orbit {
+    animation: none;
+  }
+}

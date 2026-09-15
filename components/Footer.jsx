@@ -33,7 +33,20 @@ export default function Footer() {
 
       {/* Outlined sign-off, borrowed from the studio's own reference. Purely
           decorative, so it is hidden from assistive tech and unselectable. */}
-      <p className="footer-ghost" aria-hidden="true">Solaris</p>
+      <p className="footer-ghost" aria-hidden="true">
+        Solar
+        <span className="footer-ghost__i">
+          <span className="footer-ghost__sol">
+            <span className="footer-ghost__sun" />
+            <span className="footer-ghost__orbit footer-ghost__orbit--1"><i /></span>
+            <span className="footer-ghost__orbit footer-ghost__orbit--2"><i /></span>
+            <span className="footer-ghost__orbit footer-ghost__orbit--3"><i /></span>
+          </span>
+          {/* dotless i - the sun above stands in for the tittle */}
+          &#305;
+        </span>
+        s
+      </p>
 
       <p className="footer-fine">
         <span>© {new Date().getFullYear()} Solaris Studios</span>
