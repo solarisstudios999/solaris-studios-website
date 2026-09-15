@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <>
       <section className="hero hero--video" aria-labelledby="hero-title">
-        <SeamlessHeroVideo src="/assets/video/hero.mp4" poster="/assets/video/hero-poster.jpg" />
+        <SeamlessHeroVideo src="/assets/video/hero.mp4" poster="/assets/video/hero-poster.webp" />
         <div className="hero__shade" aria-hidden="true" />
         <div className="hero__grid" aria-hidden="true" />
         <div className="hero__content">
