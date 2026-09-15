@@ -38,9 +38,18 @@ export default function Footer() {
         <span className="footer-ghost__i">
           <span className="footer-ghost__sol">
             <span className="footer-ghost__sun" />
-            <span className="footer-ghost__orbit footer-ghost__orbit--1"><i /></span>
-            <span className="footer-ghost__orbit footer-ghost__orbit--2"><i /></span>
-            <span className="footer-ghost__orbit footer-ghost__orbit--3"><i /></span>
+            <span className="footer-ghost__orbit footer-ghost__orbit--1">
+              <span className="footer-ghost__ring" />
+              <span className="footer-ghost__spin"><span className="footer-ghost__ast"><i /></span></span>
+            </span>
+            <span className="footer-ghost__orbit footer-ghost__orbit--2">
+              <span className="footer-ghost__ring" />
+              <span className="footer-ghost__spin"><span className="footer-ghost__ast"><i /></span></span>
+            </span>
+            <span className="footer-ghost__orbit footer-ghost__orbit--3">
+              <span className="footer-ghost__ring" />
+              <span className="footer-ghost__spin"><span className="footer-ghost__ast"><i /></span></span>
+            </span>
           </span>
           {/* dotless i - the sun above stands in for the tittle */}
           &#305;

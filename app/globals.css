@@ -4046,9 +4046,12 @@ body:has(.contact-screen) {
    Everything else centres on it. */
 .footer-ghost__sol {
   position: absolute;
-  left: 50%;
-  /* Sits clear of the stem, where a real tittle would fall. */
-  bottom: 0.84em;
+  /* letter-spacing: -0.06em trims the i's box AFTER the glyph is drawn, so
+     the element centre lands 0.03em left of the actual stem. Add it back. */
+  left: calc(50% + 0.03em);
+  /* Stem ink tops out at 0.528em above the baseline; this leaves a tittle-
+     sized gap above it rather than floating free. */
+  bottom: 0.75em;
   width: 0;
   height: 0;
 }
@@ -4103,62 +4106,103 @@ body:has(.contact-screen) {
   );
 }
 
+/* Tilted ellipses, not flat circles. The box stays square and scaleY
+   squashes it, so the asteroid inside travels a true elliptical path
+   rather than a circle that merely looks oval. The dot counter-scales
+   so it stays round. */
 .footer-ghost__orbit {
   position: absolute;
   left: 0;
   top: 0;
-  border-radius: 50%;
-  border: 0.004em solid rgba(255, 255, 255, 0.12);
-  transform: translate(-50%, -50%);
-  animation: ghost-orbit 16s linear infinite;
+  width: var(--d);
+  height: var(--d);
+  transform: translate(-50%, -50%) rotate(var(--tilt)) scaleY(var(--squash));
 }
 
-/* The asteroid rides the top of its ring. */
-.footer-ghost__orbit i {
+.footer-ghost__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 0.004em solid rgba(255, 255, 255, 0.14);
+}
+
+.footer-ghost__spin {
+  position: absolute;
+  inset: 0;
+  animation: ghost-orbit var(--dur) linear infinite;
+}
+
+/* The spin sits between the squash and the counter-squash, and rotation
+   does not commute with scale - so cancelling the squash on the dot alone
+   leaves it sheared into a sliver. This wrapper counter-rotates at the same
+   rate, putting the dot back in the squash's own frame where scaleY(1/S)
+   actually cancels. It rotates about a zero-size point, so the dot's
+   position on the ellipse is untouched. */
+.footer-ghost__ast {
   position: absolute;
   left: 50%;
   top: 0;
+  width: 0;
+  height: 0;
+  animation: ghost-orbit var(--dur) linear infinite reverse;
+}
+
+.footer-ghost__ast i {
+  position: absolute;
+  display: block;
   width: 0.022em;
   height: 0.022em;
-  margin: -0.011em 0 0 -0.011em;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.9);
+  transform: translate(-50%, -50%) scaleY(calc(1 / var(--squash)));
 }
 
 .footer-ghost__orbit--1 {
-  width: 0.28em;
-  height: 0.28em;
-  animation-duration: 9s;
+  --d: 0.32em;
+  --squash: 0.4;
+  --tilt: -17deg;
+  --dur: 9s;
 }
 
 .footer-ghost__orbit--2 {
-  width: 0.42em;
-  height: 0.42em;
-  animation-duration: 15s;
+  --d: 0.48em;
+  --squash: 0.3;
+  --tilt: 9deg;
+  --dur: 15s;
+}
+
+/* This one runs the other way, so its counter-rotation flips too. */
+.footer-ghost__orbit--2 .footer-ghost__spin {
   animation-direction: reverse;
 }
 
-.footer-ghost__orbit--3 {
-  width: 0.58em;
-  height: 0.58em;
-  animation-duration: 24s;
+.footer-ghost__orbit--2 .footer-ghost__ast {
+  animation-direction: normal;
 }
 
-.footer-ghost__orbit--3 i {
+.footer-ghost__orbit--3 {
+  --d: 0.66em;
+  --squash: 0.34;
+  --tilt: -27deg;
+  --dur: 24s;
+}
+
+.footer-ghost__orbit--3 .footer-ghost__ast i {
   width: 0.016em;
   height: 0.016em;
-  margin: -0.008em 0 0 -0.008em;
-  background: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.62);
 }
 
 @keyframes ghost-orbit {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   /* Sun and rings stay; only the travel stops. */
-  .footer-ghost__orbit {
+  .footer-ghost__spin,
+  .footer-ghost__ast {
     animation: none;
   }
 }
