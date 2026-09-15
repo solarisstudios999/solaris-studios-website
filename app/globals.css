@@ -2901,19 +2901,11 @@ body:has(.contact-screen) {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 32px;
-  align-items: start;
+  align-items: center;
   width: min(var(--max), calc(100% - var(--page-pad) * 2));
   margin: 0 auto;
   padding: 54px 0 64px;
   border-top: 1px solid var(--line);
-}
-
-.footer-brand {
-  display: inline-block;
-  margin-bottom: 8px;
-  font-size: 1.2rem;
-  font-weight: 900;
-  text-transform: uppercase;
 }
 
 .site-footer address {
@@ -3993,10 +3985,10 @@ body:has(.contact-screen) {
 }
 
 .footer-ghost {
-  grid-column: 1 / -1;
-  margin: 40px 0 0;
+  grid-column: 1;
+  margin: 0;
   font-family: var(--font-display), "Satoshi", Arial, sans-serif;
-  font-size: min(23vw, 20rem);
+  font-size: min(24vw, 20rem);
   font-weight: 800;
   line-height: 0.78;
   letter-spacing: -0.06em;

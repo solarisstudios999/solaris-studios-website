@@ -1,7 +1,6 @@
 "use client";
 
 import ContactLine from "@/components/ContactLine";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { studio } from "@/lib/data";
 
@@ -12,25 +11,6 @@ export default function Footer() {
 
   return (
     <footer className="site-footer">
-      <div>
-        <Link className="footer-brand" href="/">
-          Solaris Studios
-        </Link>
-        <p>Brands / Web / Content Systems</p>
-      </div>
-      <address>
-        <ContactLine icon="location">{studio.location}</ContactLine>
-        <ContactLine as="a" icon="email" href={`mailto:${studio.email}`}>
-          {studio.email}
-        </ContactLine>
-        <ContactLine as="a" icon="instagram" href={studio.instagramUrl} target="_blank" rel="noreferrer">
-          {studio.instagram}
-        </ContactLine>
-        <ContactLine as="a" icon="whatsapp" href={studio.whatsappHref} target="_blank" rel="noreferrer">
-          {studio.phone}
-        </ContactLine>
-      </address>
-
       {/* Outlined sign-off, borrowed from the studio's own reference. Purely
           decorative, so it is hidden from assistive tech and unselectable. */}
       <p className="footer-ghost" aria-hidden="true">
@@ -56,6 +36,19 @@ export default function Footer() {
         </span>
         s
       </p>
+
+      <address>
+        <ContactLine icon="location">{studio.location}</ContactLine>
+        <ContactLine as="a" icon="email" href={`mailto:${studio.email}`}>
+          {studio.email}
+        </ContactLine>
+        <ContactLine as="a" icon="instagram" href={studio.instagramUrl} target="_blank" rel="noreferrer">
+          {studio.instagram}
+        </ContactLine>
+        <ContactLine as="a" icon="whatsapp" href={studio.whatsappHref} target="_blank" rel="noreferrer">
+          {studio.phone}
+        </ContactLine>
+      </address>
 
       <p className="footer-fine">
         <span>© {new Date().getFullYear()} Solaris Studios</span>
