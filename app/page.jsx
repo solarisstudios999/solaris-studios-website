@@ -131,24 +131,26 @@ export default function HomePage() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="section section--testimonials" aria-labelledby="testimonials-title">
-        <div className="section__head">
-          <p className="eyebrow">05 / In their words</p>
-          <h2 id="testimonials-title">What founders say after launch.</h2>
-        </div>
-        <div className="testimonial-grid">
-          {testimonials.map((item) => (
-            <article className="testimonial-card" key={item.quote}>
-              <span className="testimonial-card__mark" aria-hidden="true">"</span>
-              <p className="testimonial-card__quote">{item.quote}</p>
-              <p className="testimonial-card__author">
-                <span>{item.author}</span>
-                <span>{item.role}</span>
-              </p>
-            </article>
-          ))}
-        </div>
-      </Reveal>
+      {testimonials.length > 0 ? (
+        <Reveal as="section" className="section section--testimonials" aria-labelledby="testimonials-title">
+          <div className="section__head">
+            <p className="eyebrow">05 / In their words</p>
+            <h2 id="testimonials-title">What founders say after launch.</h2>
+          </div>
+          <div className="testimonial-grid">
+            {testimonials.map((item) => (
+              <article className="testimonial-card" key={item.quote}>
+                <span className="testimonial-card__mark" aria-hidden="true">"</span>
+                <p className="testimonial-card__quote">{item.quote}</p>
+                <p className="testimonial-card__author">
+                  <span>{item.author}</span>
+                  <span>{item.role}</span>
+                </p>
+              </article>
+            ))}
+          </div>
+        </Reveal>
+      ) : null}
 
       <Reveal as="section" className="section home-cta" aria-label="Start a project">
         <div className="home-cta__inner">
