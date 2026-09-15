@@ -4008,10 +4008,19 @@ body:has(.contact-screen) {
   line-height: 0.78;
   letter-spacing: -0.06em;
   white-space: nowrap;
-  color: var(--white);
+  /* Outlined, not filled. The stroke carries the weight. */
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.85);
   text-transform: none;
   user-select: none;
   pointer-events: none;
+}
+
+@supports not (-webkit-text-stroke: 1px white) {
+  /* No stroke support: a dim solid beats an invisible word. */
+  .footer-ghost {
+    color: rgba(255, 255, 255, 0.12);
+  }
 }
 
 .footer-fine {
