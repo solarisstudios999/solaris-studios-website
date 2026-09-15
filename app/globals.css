@@ -4008,8 +4008,7 @@ body:has(.contact-screen) {
   line-height: 0.78;
   letter-spacing: -0.06em;
   white-space: nowrap;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.16);
+  color: var(--white);
   text-transform: none;
   user-select: none;
   pointer-events: none;
@@ -4028,9 +4027,3 @@ body:has(.contact-screen) {
   color: rgba(230, 230, 230, 0.6);
 }
 
-@supports not (-webkit-text-stroke: 1px white) {
-  /* No stroke support: show it as a very dim solid rather than invisible. */
-  .footer-ghost {
-    color: rgba(255, 255, 255, 0.09);
-  }
-}
