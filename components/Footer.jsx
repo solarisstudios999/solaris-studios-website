@@ -30,6 +30,15 @@ export default function Footer() {
           {studio.phone}
         </ContactLine>
       </address>
+
+      {/* Outlined sign-off, borrowed from the studio's own reference. Purely
+          decorative, so it is hidden from assistive tech and unselectable. */}
+      <p className="footer-ghost" aria-hidden="true">Solaris</p>
+
+      <p className="footer-fine">
+        <span>© {new Date().getFullYear()} Solaris Studios</span>
+        <span>Brand, web and content, {studio.location}</span>
+      </p>
     </footer>
   );
 }

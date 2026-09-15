@@ -3985,3 +3985,52 @@ body:has(.contact-screen) {
     transform: none;
   }
 }
+
+/* ============================================================
+   FOOTER SIGN-OFF
+   A large outlined wordmark closing the page, with the fine
+   print beneath it. Decorative only - the contact block above
+   it is untouched.
+   ============================================================ */
+
+.site-footer {
+  /* The wordmark is deliberately wider than the column; clip it rather
+     than letting it push a horizontal scrollbar onto the page. */
+  overflow: clip;
+}
+
+.footer-ghost {
+  grid-column: 1 / -1;
+  margin: 40px 0 0;
+  font-family: var(--font-display), "Satoshi", Arial, sans-serif;
+  font-size: min(23vw, 20rem);
+  font-weight: 800;
+  line-height: 0.78;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.16);
+  text-transform: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.footer-fine {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 32px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: var(--t-label);
+  color: rgba(230, 230, 230, 0.6);
+}
+
+@supports not (-webkit-text-stroke: 1px white) {
+  /* No stroke support: show it as a very dim solid rather than invisible. */
+  .footer-ghost {
+    color: rgba(255, 255, 255, 0.09);
+  }
+}
