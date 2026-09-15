@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
-import { studio, team } from "@/lib/data";
+import Origin from "@/components/Origin";
+import { existsSync } from "node:fs";
+import path from "node:path";
+import { studio, team, origin } from "@/lib/data";
 
 export const metadata = {
   title: "Studio",
@@ -34,6 +37,14 @@ const numbers = [
 ];
 
 export default function AboutPage() {
+  // Server-side: only pass through photos that are actually on disk, so the
+  // section degrades to a designed placeholder instead of broken images.
+  const originPhotos = Object.fromEntries(
+    origin.photos
+      .filter((p) => existsSync(path.join(process.cwd(), "public", p.src)))
+      .map((p) => [p.key, p]),
+  );
+
   return (
     <>
       <Reveal as="section" className="page-hero">
@@ -89,9 +100,17 @@ export default function AboutPage() {
         </div>
       </Reveal>
 
+      <Reveal as="section" className="section" id="about-origin" aria-labelledby="origin-title">
+        <div className="section__head">
+          <p className="eyebrow">03 / Origin</p>
+          <h2 id="origin-title">Two people, one of them since class 1.</h2>
+        </div>
+        <Origin origin={origin} photos={originPhotos} />
+      </Reveal>
+
       <Reveal as="section" className="section section--services" id="about-team" aria-labelledby="team-title">
         <div className="section__head">
-          <p className="eyebrow">03 / People</p>
+          <p className="eyebrow">04 / People</p>
           <h2 id="team-title">One studio, one accountable team.</h2>
         </div>
         <div className="team-grid">
