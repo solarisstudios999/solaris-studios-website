@@ -2070,7 +2070,7 @@ p {
 
 .process-step__duration {
   color: var(--red);
-  font-size: 0.74rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -2304,7 +2304,7 @@ body:has(.contact-screen) {
 
 .contact-screen .contact-form label {
   gap: 6px;
-  font-size: 0.76rem;
+  font-size: var(--t-label);
 }
 
 .contact-screen .contact-form input,
@@ -2543,7 +2543,7 @@ body:has(.contact-screen) {
 }
 
 .about-numbers__label {
-  font-size: 0.74rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -2668,7 +2668,7 @@ body:has(.contact-screen) {
 
 .team-card__role {
   color: var(--red);
-  font-size: 0.74rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -3621,7 +3621,7 @@ body:has(.contact-screen) {
 
   .contact-screen .eyebrow,
   .contact-screen .contact-kicker {
-    font-size: 0.74rem;
+    font-size: var(--t-label);
   }
 
   .contact-screen .contact-links {
@@ -3651,7 +3651,7 @@ body:has(.contact-screen) {
 
   .contact-screen .contact-form label {
     gap: 6px;
-    font-size: 0.72rem;
+    font-size: var(--t-label);
   }
 
   .contact-screen .contact-form input,
