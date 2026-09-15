@@ -612,6 +612,13 @@ p {
   letter-spacing: -0.025em;
 }
 
+/* The hero headline is uppercased globally by the h1,h2,h3 rule. This opts
+   the closing word back out, so the line lands on "inevitable" in its own
+   voice instead of shouting it. Hero only - nothing else changes. */
+.hero__lower {
+  text-transform: none;
+}
+
 .red-rule {
   position: relative;
   display: block;
