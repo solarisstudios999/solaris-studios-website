@@ -51,6 +51,15 @@
   --scroll-progress: 0;
   --cursor-x: 50vw;
   --cursor-y: 50vh;
+  /* One type scale. Six steps, replacing the fourteen ad-hoc sizes that had
+     accumulated. Label is the floor - nothing on the site goes under 13px. */
+  --t-display: clamp(3rem, 7.2vw, 5.4rem);
+  --t-h2: clamp(2.2rem, 5vw, 3.65rem);
+  --t-h3: 1.5rem;
+  --t-lead: 1.125rem;
+  --t-body: 1.0625rem;
+  --t-label: 0.8125rem;
+
   --track-tight: -0.02em;
   --track-caps: 0.06em;
   --track-caps-wide: 0.12em;
@@ -132,7 +141,10 @@ p {
 h1,
 h2,
 h3 {
-  font-weight: 900;
+  font-family: var(--font-display), "Satoshi", Arial, sans-serif;
+  /* Bricolage tops out at 800, so 900 simply clamps there. */
+  font-weight: 800;
+  font-optical-sizing: auto;
   letter-spacing: var(--track-tight);
   line-height: 0.94;
   text-transform: uppercase;
@@ -153,7 +165,7 @@ h3 {
   border-radius: 999px;
   background: var(--red);
   color: var(--white);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
@@ -169,8 +181,8 @@ h3 {
 
 p {
   color: var(--paragraph);
-  font-size: 1.05rem;
-  line-height: 1.72;
+  font-size: var(--t-body);
+  line-height: 1.7;
 }
 
 .site-header {
@@ -225,7 +237,7 @@ p {
 }
 
 .brand__name {
-  font-size: 0.78rem;
+  font-size: var(--t-label);
 }
 
 .site-nav {
@@ -248,7 +260,7 @@ p {
   padding: 10px 18px;
   border-radius: 999px;
   color: var(--warm-grey);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 700;
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
@@ -295,7 +307,7 @@ p {
   border-radius: 999px;
   background: var(--red);
   color: var(--white);
-  font-size: 0.8rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
@@ -585,7 +597,7 @@ p {
 
 .eyebrow {
   color: var(--warm-grey);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps-wide);
   line-height: 1.4;
@@ -593,10 +605,10 @@ p {
 }
 
 .hero h1 {
-  max-width: 760px;
+  max-width: 940px;
   margin-top: 18px;
   color: var(--white);
-  font-size: clamp(3rem, 7.2vw, 5.4rem);
+  font-size: clamp(3.35rem, 8.4vw, 6.6rem);
   letter-spacing: -0.025em;
 }
 
@@ -624,7 +636,7 @@ p {
 .hero__lede {
   max-width: 390px;
   color: var(--white);
-  font-size: 1.08rem;
+  font-size: var(--t-body);
 }
 
 .hero__actions {
@@ -646,7 +658,7 @@ p {
   border-radius: 999px;
   border: 1px solid var(--line-strong);
   color: var(--white);
-  font-size: 0.82rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
@@ -707,7 +719,7 @@ p {
   align-items: center;
   gap: 10px;
   color: var(--warm-grey);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
   transition: color 220ms ease, transform 220ms ease;
@@ -745,7 +757,7 @@ p {
 
 .section__index {
   color: var(--red);
-  font-size: 0.82rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -816,7 +828,7 @@ p {
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--warm-grey);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -902,7 +914,7 @@ p {
 .process-list span,
 .service-showcase__head > span {
   color: var(--red);
-  font-size: 0.82rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -1780,7 +1792,7 @@ p {
   justify-content: space-between;
   gap: 16px;
   color: var(--red);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -1887,7 +1899,7 @@ p {
 }
 
 .process-chips p {
-  font-size: 0.96rem;
+  font-size: var(--t-body);
   line-height: 1.62;
 }
 
@@ -1906,7 +1918,7 @@ p {
 .page-lede {
   max-width: 680px;
   margin-top: 30px;
-  font-size: 1.12rem;
+  font-size: var(--t-lead);
 }
 
 .service-detail {
@@ -2008,7 +2020,7 @@ p {
 
 .process-step__node-inner {
   color: var(--red);
-  font-size: 0.85rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps);
 }
@@ -2051,7 +2063,7 @@ p {
 
 .process-step__duration {
   color: var(--red);
-  font-size: 0.74rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -2170,7 +2182,7 @@ p {
 .portfolio-card__link {
   align-self: end;
   color: var(--red);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
   transition: color 180ms ease, transform 220ms var(--ease);
@@ -2285,7 +2297,7 @@ body:has(.contact-screen) {
 
 .contact-screen .contact-form label {
   gap: 6px;
-  font-size: 0.76rem;
+  font-size: var(--t-label);
 }
 
 .contact-screen .contact-form input,
@@ -2322,7 +2334,7 @@ body:has(.contact-screen) {
 
 .contact-kicker {
   color: var(--red);
-  font-size: 0.82rem;
+  font-size: var(--t-label);
   font-weight: 900;
   line-height: 1.4;
   text-transform: uppercase;
@@ -2408,7 +2420,7 @@ body:has(.contact-screen) {
   display: grid;
   gap: 8px;
   color: var(--warm-grey);
-  font-size: 0.82rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -2524,7 +2536,7 @@ body:has(.contact-screen) {
 }
 
 .about-numbers__label {
-  font-size: 0.74rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -2556,7 +2568,7 @@ body:has(.contact-screen) {
 
 .belief-card__index {
   color: var(--red);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -2649,7 +2661,7 @@ body:has(.contact-screen) {
 
 .team-card__role {
   color: var(--red);
-  font-size: 0.74rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -2671,7 +2683,7 @@ body:has(.contact-screen) {
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.03);
   color: var(--white);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 700;
   letter-spacing: 0.02em;
   align-self: start;
@@ -2731,7 +2743,7 @@ body:has(.contact-screen) {
 }
 
 .testimonial-card__quote {
-  font-size: 1.05rem;
+  font-size: var(--t-body);
   font-weight: 500;
   line-height: 1.6;
   color: var(--white);
@@ -2742,7 +2754,7 @@ body:has(.contact-screen) {
   display: grid;
   gap: 2px;
   margin: 0;
-  font-size: 0.78rem;
+  font-size: var(--t-label);
 }
 
 .testimonial-card__author > span:first-child {
@@ -2873,7 +2885,7 @@ body:has(.contact-screen) {
 }
 
 .not-found__links a {
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -2889,19 +2901,11 @@ body:has(.contact-screen) {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 32px;
-  align-items: start;
+  align-items: center;
   width: min(var(--max), calc(100% - var(--page-pad) * 2));
   margin: 0 auto;
   padding: 54px 0 64px;
   border-top: 1px solid var(--line);
-}
-
-.footer-brand {
-  display: inline-block;
-  margin-bottom: 8px;
-  font-size: 1.2rem;
-  font-weight: 900;
-  text-transform: uppercase;
 }
 
 .site-footer address {
@@ -3216,7 +3220,7 @@ body:has(.contact-screen) {
     border-radius: 8px;
     background: var(--red);
     color: var(--white);
-    font-size: 0.78rem;
+    font-size: var(--t-label);
     font-weight: 900;
     letter-spacing: var(--track-caps);
     text-transform: uppercase;
@@ -3234,7 +3238,7 @@ body:has(.contact-screen) {
   }
 
   .hero h1 {
-    font-size: 4.1rem;
+    font-size: 4.6rem;
   }
 
   .section--intro,
@@ -3411,7 +3415,7 @@ body:has(.contact-screen) {
 
 @media (max-width: 680px) {
   p {
-    font-size: 0.96rem;
+    font-size: var(--t-body);
   }
 
   .brand__name {
@@ -3602,7 +3606,7 @@ body:has(.contact-screen) {
 
   .contact-screen .eyebrow,
   .contact-screen .contact-kicker {
-    font-size: 0.74rem;
+    font-size: var(--t-label);
   }
 
   .contact-screen .contact-links {
@@ -3632,7 +3636,7 @@ body:has(.contact-screen) {
 
   .contact-screen .contact-form label {
     gap: 6px;
-    font-size: 0.72rem;
+    font-size: var(--t-label);
   }
 
   .contact-screen .contact-form input,
@@ -3651,11 +3655,11 @@ body:has(.contact-screen) {
     min-height: 48px;
     width: 100%;
     padding: 0 18px;
-    font-size: 0.78rem;
+    font-size: var(--t-label);
   }
 
   .contact-screen .form-note {
-    font-size: 0.78rem;
+    font-size: var(--t-label);
     line-height: 1.45;
   }
 }
@@ -3675,7 +3679,7 @@ body:has(.contact-screen) {
   }
 
   .contact-screen__intro p:last-child {
-    font-size: 0.82rem;
+    font-size: var(--t-label);
     line-height: 1.4;
   }
 
@@ -3737,7 +3741,7 @@ body:has(.contact-screen) {
 /* ============================================================
    CASE PANEL
    One treatment for every launch. Driven entirely by an entry in
-   `projects` (lib/data.js) — a new client needs data and images,
+   `projects` (lib/data.js) - a new client needs data and images,
    not new CSS.
 
    The client's work is warm and light; this site is black. The
@@ -3805,7 +3809,7 @@ body:has(.contact-screen) {
 }
 
 .case__url {
-  font-size: 0.75rem;
+  font-size: var(--t-label);
   letter-spacing: var(--track-caps);
   color: rgba(230, 230, 230, 0.66);
   white-space: nowrap;
@@ -3852,7 +3856,7 @@ body:has(.contact-screen) {
   background: transparent;
   color: var(--muted);
   font: inherit;
-  font-size: 0.75rem;
+  font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -3895,7 +3899,7 @@ body:has(.contact-screen) {
 }
 
 .case__line dt {
-  font-size: 0.6875rem;
+  font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -3920,7 +3924,7 @@ body:has(.contact-screen) {
 }
 
 .case__meta dt {
-  font-size: 0.6875rem;
+  font-size: var(--t-label);
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
   color: rgba(230, 230, 230, 0.55);
@@ -3964,5 +3968,233 @@ body:has(.contact-screen) {
   }
   .case__frame:hover {
     transform: none;
+  }
+}
+
+/* ============================================================
+   FOOTER SIGN-OFF
+   A large outlined wordmark closing the page, with the fine
+   print beneath it. Decorative only - the contact block above
+   it is untouched.
+   ============================================================ */
+
+.site-footer {
+  /* The wordmark is deliberately wider than the column; clip it rather
+     than letting it push a horizontal scrollbar onto the page. */
+  overflow: clip;
+}
+
+.footer-ghost {
+  grid-column: 1;
+  margin: 0;
+  font-family: var(--font-display), "Satoshi", Arial, sans-serif;
+  font-size: min(24vw, 20rem);
+  font-weight: 800;
+  line-height: 0.78;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+  /* Outlined, not filled. The stroke carries the weight. */
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.85);
+  text-transform: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+@supports not (-webkit-text-stroke: 1px white) {
+  /* No stroke support: a dim solid beats an invisible word. */
+  .footer-ghost {
+    color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+.footer-fine {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 32px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: var(--t-label);
+  color: rgba(230, 230, 230, 0.6);
+}
+
+
+/* ---- the sun in the wordmark's i -------------------------------
+   The "i" is set as a dotless glyph and a small sun takes the place
+   of its tittle, with asteroids orbiting. Every dimension is in em,
+   so the whole assembly scales with the wordmark from 320px on
+   desktop down to 90px on phones without retuning.
+   ---------------------------------------------------------------- */
+
+.footer-ghost__i {
+  position: relative;
+  display: inline-block;
+}
+
+/* A zero-size anchor sitting exactly where the tittle would be.
+   Everything else centres on it. */
+.footer-ghost__sol {
+  position: absolute;
+  /* letter-spacing: -0.06em trims the i's box AFTER the glyph is drawn, so
+     the element centre lands 0.03em left of the actual stem. Add it back. */
+  left: calc(50% + 0.03em);
+  /* Stem ink tops out at 0.528em above the baseline; this leaves a tittle-
+     sized gap above it rather than floating free. */
+  bottom: 0.75em;
+  width: 0;
+  height: 0;
+}
+
+/* Shaded as a sphere rather than a flat disc: a specular highlight up
+   and left, the body falling to a dark limb, an inset terminator on the
+   unlit side, and a faint lit rim opposite it. */
+.footer-ghost__sun {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0.155em;
+  height: 0.155em;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 30% 26%,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 244, 214, 0.75) 7%,
+      rgba(255, 255, 255, 0) 26%
+    ),
+    radial-gradient(
+      circle at 38% 33%,
+      #ffe3ab 0%,
+      #ffab4a 26%,
+      #ff6a2a 52%,
+      var(--red) 74%,
+      #6d1009 100%
+    );
+  box-shadow:
+    inset -0.018em -0.024em 0.05em rgba(74, 8, 4, 0.75),
+    inset 0.014em 0.016em 0.03em rgba(255, 226, 170, 0.45),
+    0 0 0.05em rgba(255, 160, 70, 0.9),
+    0 0 0.2em rgba(255, 59, 48, 0.55),
+    0 0 0.42em rgba(255, 59, 48, 0.22);
+}
+
+/* Limb darkening: a real sphere loses light toward its edge. This is
+   what separates a shaded ball from a flat disc with a highlight. */
+.footer-ghost__sun::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 33%,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 42%,
+    rgba(92, 16, 6, 0.35) 76%,
+    rgba(48, 6, 2, 0.72) 100%
+  );
+}
+
+/* Tilted ellipses, not flat circles. The box stays square and scaleY
+   squashes it, so the asteroid inside travels a true elliptical path
+   rather than a circle that merely looks oval. The dot counter-scales
+   so it stays round. */
+.footer-ghost__orbit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--d);
+  height: var(--d);
+  transform: translate(-50%, -50%) rotate(var(--tilt)) scaleY(var(--squash));
+}
+
+.footer-ghost__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 0.004em solid rgba(255, 255, 255, 0.14);
+}
+
+.footer-ghost__spin {
+  position: absolute;
+  inset: 0;
+  animation: ghost-orbit var(--dur) linear infinite;
+}
+
+/* The spin sits between the squash and the counter-squash, and rotation
+   does not commute with scale - so cancelling the squash on the dot alone
+   leaves it sheared into a sliver. This wrapper counter-rotates at the same
+   rate, putting the dot back in the squash's own frame where scaleY(1/S)
+   actually cancels. It rotates about a zero-size point, so the dot's
+   position on the ellipse is untouched. */
+.footer-ghost__ast {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 0;
+  height: 0;
+  animation: ghost-orbit var(--dur) linear infinite reverse;
+}
+
+.footer-ghost__ast i {
+  position: absolute;
+  display: block;
+  width: 0.022em;
+  height: 0.022em;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  transform: translate(-50%, -50%) scaleY(calc(1 / var(--squash)));
+}
+
+.footer-ghost__orbit--1 {
+  --d: 0.32em;
+  --squash: 0.4;
+  --tilt: -17deg;
+  --dur: 9s;
+}
+
+.footer-ghost__orbit--2 {
+  --d: 0.48em;
+  --squash: 0.3;
+  --tilt: 9deg;
+  --dur: 15s;
+}
+
+/* This one runs the other way, so its counter-rotation flips too. */
+.footer-ghost__orbit--2 .footer-ghost__spin {
+  animation-direction: reverse;
+}
+
+.footer-ghost__orbit--2 .footer-ghost__ast {
+  animation-direction: normal;
+}
+
+.footer-ghost__orbit--3 {
+  --d: 0.66em;
+  --squash: 0.34;
+  --tilt: -27deg;
+  --dur: 24s;
+}
+
+.footer-ghost__orbit--3 .footer-ghost__ast i {
+  width: 0.016em;
+  height: 0.016em;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+@keyframes ghost-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Sun and rings stay; only the travel stops. */
+  .footer-ghost__spin,
+  .footer-ghost__ast {
+    animation: none;
   }
 }

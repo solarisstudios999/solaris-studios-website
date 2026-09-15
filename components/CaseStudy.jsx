@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 /**
  * One launch, presented as a browser frame you can step through.
  *
- * This is the single treatment for every project — pass any entry from
+ * This is the single treatment for every project - pass any entry from
  * `projects` in lib/data.js and it renders the same way. Adding the next
  * client means adding data, not building a new section.
  *
@@ -15,7 +15,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * changes with the screen, and the frame is the tabpanel.
  *
  * It advances on its own every 4s so the panel is alive on arrival, and stops
- * permanently the moment someone touches it — it should never fight the
+ * permanently the moment someone touches it - it should never fight the
  * visitor for control. Under prefers-reduced-motion it never auto-advances.
  */
 export default function CaseStudy({ project, priority = false }) {
@@ -134,7 +134,7 @@ export default function CaseStudy({ project, priority = false }) {
 
       <div className="case__body">
         <p className="eyebrow">
-          {project.title} — {project.status}
+          {project.title} - {project.status}
         </p>
         <h3 className="case__title">{project.tagline}</h3>
 

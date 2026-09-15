@@ -1,15 +1,25 @@
+import { Bricolage_Grotesque } from "next/font/google";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ExperienceEffects from "@/components/ExperienceEffects";
 import { studio } from "@/lib/data";
 import "./globals.css";
 
+/* Display face only. Body stays on Satoshi, which is already self-hosted in
+   globals.css - so this adds one font to the page rather than two. */
+const display = Bricolage_Grotesque({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display",
+  axes: ["opsz"],
+});
+
 const siteUrl = "https://solarisstudios.co.in";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Solaris Studios — Brand, Web, and Content Systems",
+    default: "Solaris Studios - Brand, Web, and Content Systems",
     template: "%s · Solaris Studios",
   },
   description:
@@ -31,7 +41,7 @@ export const metadata = {
     locale: "en_IN",
     url: siteUrl,
     siteName: "Solaris Studios",
-    title: "Solaris Studios — Brand, Web, and Content Systems",
+    title: "Solaris Studios - Brand, Web, and Content Systems",
     description:
       "An independent brand, web, and content studio in Bangalore. Clear, considered work for founders and growing teams.",
     images: [
@@ -39,13 +49,13 @@ export const metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Solaris Studios — Brand, Web, and Content Systems",
+        alt: "Solaris Studios - Brand, Web, and Content Systems",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Solaris Studios — Brand, Web, and Content Systems",
+    title: "Solaris Studios - Brand, Web, and Content Systems",
     description:
       "Independent studio in Bangalore. Brand, web, and content systems for founders who want clarity without losing edge.",
     images: ["/opengraph-image"],
@@ -99,7 +109,7 @@ const organizationLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={display.variable}>
       <body>
         <script
           type="application/ld+json"
