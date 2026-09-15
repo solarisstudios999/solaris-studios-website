@@ -5,7 +5,7 @@ import { projects } from "@/lib/data";
 
 export const metadata = {
   title: "Work",
-  description: "Recent launches by Solaris Studios — brand, web, and content systems shaped to fit together.",
+  description: "Recent launches by Solaris Studios - brand, web, and content systems shaped to fit together.",
 };
 
 export default function PortfolioPage() {
@@ -30,7 +30,7 @@ export default function PortfolioPage() {
           <p className="eyebrow">Coming soon</p>
           <h2>Coming Soon!!</h2>
           <p>
-            Brand systems, websites, and content launches are in production right now — and they land
+            Brand systems, websites, and content launches are in production right now - and they land
             on this page in the coming weeks. If you want yours to be next, the door is open.
           </p>
           <Link className="button button--primary" href="/contact">Start a project</Link>

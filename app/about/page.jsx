@@ -10,7 +10,7 @@ export const metadata = {
 const beliefs = [
   {
     title: "Clarity is a feature.",
-    body: "We earn attention by being easier to read, easier to navigate, and easier to act on — not louder.",
+    body: "We earn attention by being easier to read, easier to navigate, and easier to act on - not louder.",
   },
   {
     title: "Systems beat one-offs.",
@@ -63,7 +63,7 @@ export default function AboutPage() {
           <div className="intro-copy">
             <p>
               Small teams kept asking for one studio that could think across brand, website, content,
-              and search — without handing the project off three times. So we built one.
+              and search - without handing the project off three times. So we built one.
             </p>
             <p>
               Today, Solaris is a focused practice. We pick a small number of projects each quarter

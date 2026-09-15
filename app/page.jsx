@@ -43,7 +43,7 @@ export default function HomePage() {
               clear without becoming ordinary.
             </p>
             <p>
-              We bring structure, taste, and practical execution into one focused process — with the same
+              We bring structure, taste, and practical execution into one focused process - with the same
               people from first call to launch.
             </p>
           </div>
@@ -83,7 +83,7 @@ export default function HomePage() {
         {projects.length > 0 ? (
           <CaseStudy project={projects[0]} />
         ) : (
-          <p className="page-lede">New work is in production — coming soon.</p>
+          <p className="page-lede">New work is in production - coming soon.</p>
         )}
         <div className="section__more">
           <Link className="text-link" href="/portfolio">See all work →</Link>

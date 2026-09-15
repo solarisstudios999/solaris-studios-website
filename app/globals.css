@@ -51,6 +51,15 @@
   --scroll-progress: 0;
   --cursor-x: 50vw;
   --cursor-y: 50vh;
+  /* One type scale. Six steps, replacing the fourteen ad-hoc sizes that had
+     accumulated. Label is the floor - nothing on the site goes under 13px. */
+  --t-display: clamp(3rem, 7.2vw, 5.4rem);
+  --t-h2: clamp(2.2rem, 5vw, 3.65rem);
+  --t-h3: 1.5rem;
+  --t-lead: 1.125rem;
+  --t-body: 1.0625rem;
+  --t-label: 0.8125rem;
+
   --track-tight: -0.02em;
   --track-caps: 0.06em;
   --track-caps-wide: 0.12em;
@@ -79,7 +88,7 @@ body {
     var(--black);
   background-size: auto, 96px 96px, auto;
   color: var(--white);
-  font-family: "Satoshi", Arial, sans-serif;
+  font-family: var(--font-sans), "Satoshi", Arial, sans-serif;
   letter-spacing: 0;
   isolation: isolate;
 }
@@ -132,7 +141,10 @@ p {
 h1,
 h2,
 h3 {
-  font-weight: 900;
+  font-family: var(--font-display), "Satoshi", Arial, sans-serif;
+  /* Bricolage tops out at 800, so 900 simply clamps there. */
+  font-weight: 800;
+  font-optical-sizing: auto;
   letter-spacing: var(--track-tight);
   line-height: 0.94;
   text-transform: uppercase;
@@ -153,7 +165,7 @@ h3 {
   border-radius: 999px;
   background: var(--red);
   color: var(--white);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
@@ -169,8 +181,8 @@ h3 {
 
 p {
   color: var(--paragraph);
-  font-size: 1.05rem;
-  line-height: 1.72;
+  font-size: var(--t-body);
+  line-height: 1.7;
 }
 
 .site-header {
@@ -225,7 +237,7 @@ p {
 }
 
 .brand__name {
-  font-size: 0.78rem;
+  font-size: var(--t-label);
 }
 
 .site-nav {
@@ -248,7 +260,7 @@ p {
   padding: 10px 18px;
   border-radius: 999px;
   color: var(--warm-grey);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 700;
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
@@ -295,7 +307,7 @@ p {
   border-radius: 999px;
   background: var(--red);
   color: var(--white);
-  font-size: 0.8rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
@@ -585,7 +597,7 @@ p {
 
 .eyebrow {
   color: var(--warm-grey);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps-wide);
   line-height: 1.4;
@@ -624,7 +636,7 @@ p {
 .hero__lede {
   max-width: 390px;
   color: var(--white);
-  font-size: 1.08rem;
+  font-size: var(--t-body);
 }
 
 .hero__actions {
@@ -646,7 +658,7 @@ p {
   border-radius: 999px;
   border: 1px solid var(--line-strong);
   color: var(--white);
-  font-size: 0.82rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
@@ -707,7 +719,7 @@ p {
   align-items: center;
   gap: 10px;
   color: var(--warm-grey);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
   transition: color 220ms ease, transform 220ms ease;
@@ -745,7 +757,7 @@ p {
 
 .section__index {
   color: var(--red);
-  font-size: 0.82rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -816,7 +828,7 @@ p {
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--warm-grey);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -902,7 +914,7 @@ p {
 .process-list span,
 .service-showcase__head > span {
   color: var(--red);
-  font-size: 0.82rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -1780,7 +1792,7 @@ p {
   justify-content: space-between;
   gap: 16px;
   color: var(--red);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -1887,7 +1899,7 @@ p {
 }
 
 .process-chips p {
-  font-size: 0.96rem;
+  font-size: var(--t-body);
   line-height: 1.62;
 }
 
@@ -1906,7 +1918,7 @@ p {
 .page-lede {
   max-width: 680px;
   margin-top: 30px;
-  font-size: 1.12rem;
+  font-size: var(--t-lead);
 }
 
 .service-detail {
@@ -2008,7 +2020,7 @@ p {
 
 .process-step__node-inner {
   color: var(--red);
-  font-size: 0.85rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps);
 }
@@ -2170,7 +2182,7 @@ p {
 .portfolio-card__link {
   align-self: end;
   color: var(--red);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
   transition: color 180ms ease, transform 220ms var(--ease);
@@ -2322,7 +2334,7 @@ body:has(.contact-screen) {
 
 .contact-kicker {
   color: var(--red);
-  font-size: 0.82rem;
+  font-size: var(--t-label);
   font-weight: 900;
   line-height: 1.4;
   text-transform: uppercase;
@@ -2408,7 +2420,7 @@ body:has(.contact-screen) {
   display: grid;
   gap: 8px;
   color: var(--warm-grey);
-  font-size: 0.82rem;
+  font-size: var(--t-label);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -2556,7 +2568,7 @@ body:has(.contact-screen) {
 
 .belief-card__index {
   color: var(--red);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -2671,7 +2683,7 @@ body:has(.contact-screen) {
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.03);
   color: var(--white);
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 700;
   letter-spacing: 0.02em;
   align-self: start;
@@ -2731,7 +2743,7 @@ body:has(.contact-screen) {
 }
 
 .testimonial-card__quote {
-  font-size: 1.05rem;
+  font-size: var(--t-body);
   font-weight: 500;
   line-height: 1.6;
   color: var(--white);
@@ -2742,7 +2754,7 @@ body:has(.contact-screen) {
   display: grid;
   gap: 2px;
   margin: 0;
-  font-size: 0.78rem;
+  font-size: var(--t-label);
 }
 
 .testimonial-card__author > span:first-child {
@@ -2873,7 +2885,7 @@ body:has(.contact-screen) {
 }
 
 .not-found__links a {
-  font-size: 0.78rem;
+  font-size: var(--t-label);
   font-weight: 900;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -3216,7 +3228,7 @@ body:has(.contact-screen) {
     border-radius: 8px;
     background: var(--red);
     color: var(--white);
-    font-size: 0.78rem;
+    font-size: var(--t-label);
     font-weight: 900;
     letter-spacing: var(--track-caps);
     text-transform: uppercase;
@@ -3411,7 +3423,7 @@ body:has(.contact-screen) {
 
 @media (max-width: 680px) {
   p {
-    font-size: 0.96rem;
+    font-size: var(--t-body);
   }
 
   .brand__name {
@@ -3651,11 +3663,11 @@ body:has(.contact-screen) {
     min-height: 48px;
     width: 100%;
     padding: 0 18px;
-    font-size: 0.78rem;
+    font-size: var(--t-label);
   }
 
   .contact-screen .form-note {
-    font-size: 0.78rem;
+    font-size: var(--t-label);
     line-height: 1.45;
   }
 }
@@ -3675,7 +3687,7 @@ body:has(.contact-screen) {
   }
 
   .contact-screen__intro p:last-child {
-    font-size: 0.82rem;
+    font-size: var(--t-label);
     line-height: 1.4;
   }
 
@@ -3737,7 +3749,7 @@ body:has(.contact-screen) {
 /* ============================================================
    CASE PANEL
    One treatment for every launch. Driven entirely by an entry in
-   `projects` (lib/data.js) — a new client needs data and images,
+   `projects` (lib/data.js) - a new client needs data and images,
    not new CSS.
 
    The client's work is warm and light; this site is black. The
@@ -3805,7 +3817,7 @@ body:has(.contact-screen) {
 }
 
 .case__url {
-  font-size: 0.75rem;
+  font-size: var(--t-label);
   letter-spacing: var(--track-caps);
   color: rgba(230, 230, 230, 0.66);
   white-space: nowrap;
@@ -3852,7 +3864,7 @@ body:has(.contact-screen) {
   background: transparent;
   color: var(--muted);
   font: inherit;
-  font-size: 0.75rem;
+  font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -3895,7 +3907,7 @@ body:has(.contact-screen) {
 }
 
 .case__line dt {
-  font-size: 0.6875rem;
+  font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
@@ -3920,7 +3932,7 @@ body:has(.contact-screen) {
 }
 
 .case__meta dt {
-  font-size: 0.6875rem;
+  font-size: var(--t-label);
   letter-spacing: var(--track-caps-wide);
   text-transform: uppercase;
   color: rgba(230, 230, 230, 0.55);

@@ -1,15 +1,31 @@
+import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ExperienceEffects from "@/components/ExperienceEffects";
 import { studio } from "@/lib/data";
 import "./globals.css";
 
+/* Self-hosted at build time by next/font - no request to Google on page load,
+   and a metric-matched fallback so the swap costs no layout shift. */
+const display = Bricolage_Grotesque({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display",
+  axes: ["opsz"],
+});
+
+const sans = Instrument_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
+});
+
 const siteUrl = "https://solarisstudios.co.in";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Solaris Studios — Brand, Web, and Content Systems",
+    default: "Solaris Studios - Brand, Web, and Content Systems",
     template: "%s · Solaris Studios",
   },
   description:
@@ -31,7 +47,7 @@ export const metadata = {
     locale: "en_IN",
     url: siteUrl,
     siteName: "Solaris Studios",
-    title: "Solaris Studios — Brand, Web, and Content Systems",
+    title: "Solaris Studios - Brand, Web, and Content Systems",
     description:
       "An independent brand, web, and content studio in Bangalore. Clear, considered work for founders and growing teams.",
     images: [
@@ -39,13 +55,13 @@ export const metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Solaris Studios — Brand, Web, and Content Systems",
+        alt: "Solaris Studios - Brand, Web, and Content Systems",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Solaris Studios — Brand, Web, and Content Systems",
+    title: "Solaris Studios - Brand, Web, and Content Systems",
     description:
       "Independent studio in Bangalore. Brand, web, and content systems for founders who want clarity without losing edge.",
     images: ["/opengraph-image"],
@@ -99,7 +115,7 @@ const organizationLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <body>
         <script
           type="application/ld+json"
