@@ -35,6 +35,11 @@
   --soft-black: #070707;
   --red: #ff3b30;
   --red-dim: #e02a1c;
+  /* Interactive red. White text on --red measures 3.55:1, under the 4.5:1
+     minimum, and the button labels are 13px so the large-text allowance does
+     not apply. This shade takes white to 5.07:1. Kept separate from --red so
+     labels, icons and borders are unaffected. */
+  --red-cta: #d42a19;
   --red-glow: rgba(255, 59, 48, 0.32);
   --white: #ffffff;
   --warm-grey: #e6e6e6;
@@ -163,7 +168,7 @@ h3 {
   z-index: 200;
   padding: 12px 18px;
   border-radius: 999px;
-  background: var(--red);
+  background: var(--red-cta);
   color: var(--white);
   font-size: var(--t-label);
   font-weight: 900;
@@ -303,9 +308,9 @@ p {
   justify-content: center;
   min-height: 44px;
   padding: 0 18px;
-  border: 1px solid var(--red);
+  border: 1px solid var(--red-cta);
   border-radius: 999px;
-  background: var(--red);
+  background: var(--red-cta);
   color: var(--white);
   font-size: var(--t-label);
   font-weight: 900;
@@ -691,8 +696,8 @@ p {
 }
 
 .button--primary {
-  border-color: var(--red);
-  background: var(--red);
+  border-color: var(--red-cta);
+  background: var(--red-cta);
 }
 
 .button--primary:hover {
