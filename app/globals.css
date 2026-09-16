@@ -3181,6 +3181,15 @@ body:has(.contact-screen) {
 
   .nav-toggle {
     display: inline-block;
+    /* Anchored to the page padding rather than placed by the grid, which is
+       the only way it lines up with the clock hanging under it: the clock is
+       absolutely positioned to the same edge, while the grid left the toggle a
+       gap short of it - and adrift in the middle of the bar on a tablet, where
+       the stretchy column is wide. Same anchor, so they cannot drift apart. */
+    position: absolute;
+    right: var(--page-pad);
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .brand {
@@ -4614,7 +4623,7 @@ html[data-daypart="night"] {
    the markup so it cannot fall back into the grid as a fourth child and push
    the row apart, which is how this broke once already. */
 .studio-clock {
-  display: none;
+  display: inline-flex;
   position: absolute;
   top: 100%;
   right: var(--page-pad);
@@ -4634,12 +4643,10 @@ html[data-daypart="night"] {
   pointer-events: none;
 }
 
-/* Shown from the width the desktop button appears at. The old 1200px was
-   about fitting beside the brand; under the button there is no such
-   competition, and below this the button itself moves into the nav. */
-@media (min-width: 981px) {
-  .studio-clock { display: inline-flex; }
-}
+/* Shown at every width. It hangs off the bottom right of the bar, which puts
+   it under the Start Project button on a wide screen and under the hamburger
+   on a phone - both are flush to the same page padding, so one rule places it
+   against whichever control is there. */
 
 .studio-clock__dot {
   width: 12px;
