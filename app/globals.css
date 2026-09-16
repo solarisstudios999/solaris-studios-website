@@ -4442,15 +4442,22 @@ body:has(.contact-screen) {
 
 /* ============================================================
    6 - THE STUDIO KNOWS WHAT TIME IT IS
-   The accent follows Bangalore's clock, not the visitor's. Every
-   pair below was measured: accent >= 4.5:1 as text on black, and
-   the button surface >= 4.5:1 under white.
+   The accent follows Bangalore's clock, not the visitor's.
+
+   The time of day moves lightness, never hue. Every value below
+   sits between 3 and 6 degrees - red, the brand's red. An
+   earlier pass let dawn and dusk drift out to #ff9478 and
+   #ff7433, which are oranges, and the site simply stopped
+   looking like itself for most of the working day.
+
+   Every pair was measured: accent >= 4.5:1 as text on black,
+   and the button surface >= 4.5:1 under white.
    ============================================================ */
 
 html[data-daypart="dawn"] {
-  --red: #ff9478;      /* 9.76:1 on black */
-  --red-cta: #bb5540;  /* 4.68:1 with white */
-  --red-glow: rgba(255, 148, 120, 0.3);
+  --red: #ff6259;      /* 6.85:1 on black */
+  --red-cta: #c9271a;  /* 5.54:1 with white */
+  --red-glow: rgba(255, 98, 89, 0.3);
 }
 
 html[data-daypart="day"] {
@@ -4459,15 +4466,15 @@ html[data-daypart="day"] {
 }
 
 html[data-daypart="dusk"] {
-  --red: #ff7433;      /* 7.80:1 */
-  --red-cta: #bd5a18;  /* 4.53:1 */
-  --red-glow: rgba(255, 116, 51, 0.3);
+  --red: #ff4f42;      /* 6.19:1 */
+  --red-cta: #c62718;  /* 5.67:1 */
+  --red-glow: rgba(255, 79, 66, 0.3);
 }
 
 html[data-daypart="night"] {
-  --red: #e8553c;      /* 5.80:1 */
-  --red-cta: #b8402c;  /* 5.51:1 */
-  --red-glow: rgba(232, 85, 60, 0.26);
+  --red: #e8402f;      /* 4.99:1 */
+  --red-cta: #b52213;  /* 6.56:1 */
+  --red-glow: rgba(232, 64, 47, 0.26);
 }
 
 .studio-clock {
@@ -4927,8 +4934,8 @@ html[data-daypart="night"] {
    run off the frame.
 
    Fixed positions on the rings: a moving click target is
-   hostile. The one thing that travels is the beam, because it
-   points at the discipline you have open.
+   hostile. Nothing loops here either - the shaft of light
+   arrives when you pick a discipline, then holds still.
 
    Below 1000px the diagram goes and the same buttons reflow
    into an ordinary row of pills.
@@ -5008,20 +5015,30 @@ html[data-daypart="night"] {
   }
 }
 
-/* Light leaving the sun for the discipline that is open. Widths and dashes
-   here read as screen pixels, not as units of the stretched viewBox. */
-.orbit__beam {
-  stroke: var(--red);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-dasharray: 3 4;
-  opacity: 0.9;
-  filter: drop-shadow(0 0 4px var(--red-glow));
-  animation: orbit-beam 1.1s linear infinite;
+/* The light the sun throws at the open discipline, in place of a dotted
+   connector: a dotted line between two things reads as plumbing, and one that
+   crawls reads as a loading state. A hard-edged wedge was no better - light
+   has no outline - so this is a soft blob with a radial falloff. */
+.orbit__ray {
+  /* view-box makes the percentages resolve against the 0-100 viewBox, so the
+     shaft grows out of the sun itself rather than the corner of the stage. */
+  transform-box: view-box;
+  transform-origin: 8% 50%;
+  animation: orbit-ray 460ms var(--ease) both;
 }
 
-@keyframes orbit-beam {
-  to { stroke-dashoffset: -7; }
+/* These run hot on purpose. Red at a low alpha over near-black resolves to a
+   dark maroon, which reads as a shadow cast across the diagram rather than
+   light thrown along it - the opposite of the point. */
+.orbit__ray-near { stop-color: var(--red); stop-opacity: 0.6; }
+.orbit__ray-mid { stop-color: var(--red); stop-opacity: 0.28; }
+.orbit__ray-far { stop-color: var(--red); stop-opacity: 0; }
+
+/* Replays on selection because the polygon is keyed on the discipline, so
+   picking one re-mounts it. The light arrives rather than cutting in. */
+@keyframes orbit-ray {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: none; }
 }
 
 .orbit__sun { display: none; }
@@ -5156,7 +5173,7 @@ html[data-daypart="night"] {
   .orbit__body,
   .orbit__ring { transition: none; }
 
-  .orbit__beam { animation: none; }
+  .orbit__ray { animation: none; }
 }
 
 /* ============================================================
