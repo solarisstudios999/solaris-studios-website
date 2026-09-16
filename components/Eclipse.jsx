@@ -66,6 +66,7 @@ export default function Eclipse() {
       aria-hidden="true"
     >
       <span className="eclipse__corona" />
+      <span className="eclipse__streamers" />
       <span className="eclipse__sun" />
       <span className="eclipse__moon" />
     </div>

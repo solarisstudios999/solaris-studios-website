@@ -4478,7 +4478,7 @@ html[data-daypart="night"] {
   font-variant-numeric: tabular-nums;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
   .studio-clock { display: inline-flex; }
 }
 
@@ -4886,4 +4886,136 @@ html[data-daypart="night"] {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
+}
+
+/* The header grid is `1fr auto 1fr` and expects exactly three children:
+   brand, nav, CTA. The clock shares the first column rather than becoming
+   a fourth, which had pushed the CTA onto its own row. */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.header-left .brand__name {
+  white-space: nowrap;
+}
+
+/* ============================================================
+   REALISM PASS
+   The suns were flat discs with a highlight. A disc with a
+   highlight still reads flat; losing light toward the rim is
+   what makes the eye see a sphere. Same limb darkening used on
+   the footer wordmark.
+   ============================================================ */
+
+.parc__sun,
+.orbit__sun,
+.eclipse__sun {
+  position: relative;
+  isolation: isolate;
+}
+
+.parc__sun::after,
+.orbit__sun::after,
+.eclipse__sun::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  /* limb darkening */
+  background: radial-gradient(
+    circle at 38% 33%,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 44%,
+    rgba(92, 16, 6, 0.34) 76%,
+    rgba(40, 5, 2, 0.72) 100%
+  );
+}
+
+/* A specular highlight, offset up and left, so there is a light source. */
+.parc__sun::before,
+.orbit__sun::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 26%,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 244, 214, 0.6) 8%,
+    rgba(255, 255, 255, 0) 30%
+  );
+  z-index: 1;
+}
+
+/* ---- the eclipse, properly ---------------------------------
+   A corona genuinely radiates, so a conic gradient is the right
+   operator here - unlike on a sphere, where it read as a
+   pinwheel. Streamers are masked to a ring so nothing crosses
+   the disc itself. */
+
+.eclipse__streamers {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(300px, 48vw, 700px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: calc(var(--totality) * 0.55);
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0.16) 0deg 2deg,
+    rgba(255, 255, 255, 0) 2deg 9deg
+  );
+  -webkit-mask: radial-gradient(
+    circle,
+    transparent 0 17%,
+    #000 26%,
+    transparent 62%
+  );
+  mask: radial-gradient(circle, transparent 0 17%, #000 26%, transparent 62%);
+}
+
+/* The bright rim that appears as the moon covers the disc. */
+.eclipse__moon {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.05),
+    0 0 calc(var(--totality) * 26px) calc(var(--totality) * 3px)
+      rgba(255, 233, 196, calc(var(--totality) * 0.75));
+}
+
+/* ---- orbit depth -------------------------------------------
+   Bodies on the near half of a ring pass in front of the sun;
+   bodies on the far half pass behind it. That single ordering
+   is most of what sells a flat ellipse as a tilted orbit. */
+
+@media (min-width: 900px) {
+  .orbit__sun { z-index: 2; }
+  .orbit__body { z-index: 1; }
+  .orbit__body[data-near="true"] { z-index: 3; }
+
+  /* Rings brighten on the near side, fade on the far side. */
+  .orbit__ring {
+    border-color: transparent;
+    background:
+      linear-gradient(var(--black), var(--black)) padding-box,
+      linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.04) 0%,
+          rgba(255, 255, 255, 0.07) 45%,
+          rgba(255, 255, 255, 0.2) 100%
+        )
+        border-box;
+    border: 1px solid transparent;
+    -webkit-mask:
+      linear-gradient(#000 0 0) padding-box exclude,
+      linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) padding-box exclude,
+      linear-gradient(#000 0 0);
+  }
 }

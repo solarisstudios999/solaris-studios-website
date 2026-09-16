@@ -19,12 +19,17 @@ import { useRef, useState } from "react";
  *    narrow screens the same buttons reflow into an ordinary row of pills with
  *    the rings hidden. Nothing about the content depends on the diagram.
  */
+/* Angles chosen so every label's centre stays within a safe horizontal band.
+   The widest pill is about 29% of the stage, so an anchor past ~72% would run
+   the label off the edge - which is exactly what an outer body at 18 degrees
+   did. Radius still varies, so the rings read as a system; only the angle is
+   constrained. */
 const PLACES = [
-  { r: 21, a: 202 },
-  { r: 33, a: 312 },
-  { r: 30, a: 68 },
-  { r: 41, a: 150 },
-  { r: 46, a: 18 },
+  { r: 20, a: 200 },
+  { r: 31, a: 310 },
+  { r: 27, a: 60 },
+  { r: 38, a: 240 },
+  { r: 44, a: 95 },
 ];
 
 export default function ServiceOrbit({ services = [] }) {
@@ -82,6 +87,7 @@ export default function ServiceOrbit({ services = [] }) {
                 }}
                 className="orbit__body"
                 style={{ "--x": `${x}%`, "--y": `${y}%` }}
+                data-near={y > 50}
                 onClick={() => setActive(index)}
               >
                 <span className="orbit__dot" aria-hidden="true" />

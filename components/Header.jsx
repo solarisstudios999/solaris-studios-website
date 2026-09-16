@@ -38,6 +38,7 @@ export default function Header() {
 
   return (
     <header className={`site-header ${scrolled ? "is-scrolled" : ""} ${isHome ? "" : "is-solid"}`}>
+      <div className="header-left">
       <Link className="brand" href="/" aria-label="Solaris Studios home">
         <span className="brand__mark">
           <Image
@@ -52,6 +53,7 @@ export default function Header() {
         <span className="brand__name">Solaris Studios</span>
       </Link>
       <StudioClock />
+      </div>
       <button
         className="nav-toggle"
         type="button"
