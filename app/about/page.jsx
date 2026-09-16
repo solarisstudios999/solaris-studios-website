@@ -3,7 +3,7 @@ import Reveal from "@/components/Reveal";
 import Origin from "@/components/Origin";
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { studio, team, origin } from "@/lib/data";
+import { studio, team, origin, services } from "@/lib/data";
 
 export const metadata = {
   title: "Studio",
@@ -29,11 +29,14 @@ const beliefs = [
   },
 ];
 
+/* Counted from the data, not typed out. The people figure said 3 while the
+   team below it listed two - it was written when there were three and never
+   moved when that changed, which is exactly what a hardcoded count does. */
 const numbers = [
   { value: String(studio.yearFounded), label: "Year founded" },
   { value: "5+", label: "Projects shipped" },
-  { value: "5", label: "Disciplines" },
-  { value: "3", label: "People in studio" },
+  { value: String(services.length), label: "Disciplines" },
+  { value: String(team.length), label: team.length === 1 ? "Person in studio" : "People in studio" },
 ];
 
 export default function AboutPage() {
