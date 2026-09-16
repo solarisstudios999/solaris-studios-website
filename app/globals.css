@@ -5120,7 +5120,24 @@ html[data-daypart="night"] {
   }
 }
 
+/* Phone: the diagram sits above the pills. Wide: the pills sit on the
+   diagram. Same markup either way. */
 .orbit__stage {
+  display: grid;
+  gap: 20px;
+}
+
+/* The diagram itself. It was hidden outright below 1000px, which left the
+   section as a list of pills and nothing else - the whole idea of it gone on
+   the device most people arrive on. */
+.orbit__field {
+  position: relative;
+  height: clamp(170px, 46vw, 230px);
+  /* Crops the rings into arcs. */
+  overflow: hidden;
+}
+
+.orbit__tabs {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -5131,8 +5148,14 @@ html[data-daypart="night"] {
     display: block;
     position: relative;
     aspect-ratio: 1 / 0.85;
-    /* Crops the rings into arcs. */
-    overflow: hidden;
+  }
+
+  /* Both layers fill the stage and the buttons sit on the orbits again. */
+  .orbit__field,
+  .orbit__tabs {
+    position: absolute;
+    inset: 0;
+    height: auto;
   }
 }
 
@@ -5140,10 +5163,7 @@ html[data-daypart="night"] {
    under the bodies at every width and the stage's own proportions tilt them.
    The stage clips them, which is what makes each one an arc rather than a
    closed ellipse - correct for a sun sitting on the edge. */
-.orbit__ring { display: none; }
-
-@media (min-width: 1000px) {
-  .orbit__ring {
+.orbit__ring {
     display: block;
     position: absolute;
     /* Matches SUN in ServiceOrbit.jsx. */
@@ -5156,28 +5176,49 @@ html[data-daypart="night"] {
     border-radius: 50%;
     pointer-events: none;
     transition: border-color 320ms var(--ease), box-shadow 320ms var(--ease);
-  }
+}
 
-  .orbit__ring[data-lit="true"] {
-    border-color: rgba(255, 59, 48, 0.75);
-    box-shadow: 0 0 26px -6px rgba(255, 59, 48, 0.4);
-  }
+.orbit__ring[data-lit="true"] {
+  border-color: rgba(255, 59, 48, 0.75);
+  box-shadow: 0 0 26px -6px rgba(255, 59, 48, 0.4);
+}
+
+/* Stands in for the button on a phone, where the bodies cannot carry their
+   labels. On a wide screen the button is sitting on this exact spot, so the
+   marker would only muddy it. */
+.orbit__marker {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transition: background-color 320ms var(--ease), box-shadow 320ms var(--ease),
+    transform 320ms var(--ease);
+}
+
+.orbit__marker[data-lit="true"] {
+  background: var(--red);
+  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.7), 0 0 14px var(--red-glow);
+  transform: scale(1.25);
+}
+
+@media (min-width: 1000px) {
+  .orbit__marker { display: none; }
 }
 
 /* Only the beam is SVG, and only because it has to reach an arbitrary point.
    It shares the buttons' coordinate space: a viewBox stretched over the stage,
    so the same numbers read as percentages land in the same places. */
-.orbit__map { display: none; }
-
-@media (min-width: 1000px) {
-  .orbit__map {
-    display: block;
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }
+.orbit__map {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 /* The light the sun throws at the open discipline, in place of a dotted
@@ -5206,10 +5247,7 @@ html[data-daypart="night"] {
   to { opacity: 1; transform: none; }
 }
 
-.orbit__sun { display: none; }
-
-@media (min-width: 1000px) {
-  .orbit__sun {
+.orbit__sun {
     display: block;
     position: absolute;
     /* Matches SUN in ServiceOrbit.jsx - the origin every ring is struck from. */
@@ -5228,7 +5266,6 @@ html[data-daypart="night"] {
       #6d1009 100%
     );
     box-shadow: 0 0 30px var(--red-glow), 0 0 80px rgba(255, 59, 48, 0.2);
-  }
 }
 
 /* Mobile: an ordinary pill. Desktop: a body sitting on its ring. */

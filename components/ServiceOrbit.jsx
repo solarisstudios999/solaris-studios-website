@@ -26,9 +26,15 @@ import { useRef, useState } from "react";
  *    when you pick a discipline and then holds still. A connector that keeps
  *    crawling reads as a loading state, which is the opposite of what it
  *    means here.
- * 2. It is a real tablist - arrow keys, Home/End, roving tabindex - and below
- *    1000px the diagram vanishes and the same buttons reflow into an ordinary
- *    row of pills. Nothing about the content depends on the diagram.
+ * 2. It is a real tablist - arrow keys, Home/End, roving tabindex - and nothing
+ *    about the content depends on the diagram.
+ *
+ * On a phone the bodies cannot carry their labels: there is no room for a
+ * 140px pill beside a sun at 390px. So the two split. The diagram keeps the
+ * sun, the orbits and the shaft of light, with a plain dot marking each
+ * discipline, and becomes a display of which one is open. The labelled pills
+ * move below it and stay the control. Hiding the diagram entirely - which is
+ * what this did before - left the section as a list of pills and nothing else.
  *
  * Geometry: every number below is read as a percentage of the stage - of its
  * width horizontally, of its height vertically. So a ring of radius r is just a
@@ -115,22 +121,18 @@ export default function ServiceOrbit({ services = [] }) {
 
   return (
     <div className="orbit">
-      <div
-        className="orbit__stage"
-        role="tablist"
-        aria-label="Core disciplines"
-        aria-orientation="horizontal"
-        onKeyDown={onKeyDown}
-      >
-        {services.map((service, index) => (
-          <span
-            key={service.slug}
-            className="orbit__ring"
-            data-lit={index === active}
-            style={{ "--r": at(index).place.r }}
-            aria-hidden="true"
-          />
-        ))}
+      <div className="orbit__stage">
+        {/* The diagram. Entirely decorative: everything it shows is stated by
+            the tabs and the panel. */}
+        <div className="orbit__field" aria-hidden="true">
+          {services.map((service, index) => (
+            <span
+              key={service.slug}
+              className="orbit__ring"
+              data-lit={index === active}
+              style={{ "--r": at(index).place.r }}
+            />
+          ))}
 
         {/* The shaft of light the sun throws at whichever discipline is open. */}
         <svg
@@ -168,8 +170,30 @@ export default function ServiceOrbit({ services = [] }) {
           </g>
         </svg>
 
-        <span className="orbit__sun" aria-hidden="true" />
+          <span className="orbit__sun" />
 
+          {/* Marks each discipline's place on its orbit. On a wide screen the
+              buttons themselves sit here and these stay out of the way. */}
+          {services.map((service, index) => {
+            const { x, y } = at(index);
+            return (
+              <span
+                key={service.slug}
+                className="orbit__marker"
+                data-lit={index === active}
+                style={{ "--x": `${x}%`, "--y": `${y}%` }}
+              />
+            );
+          })}
+        </div>
+
+        <div
+          className="orbit__tabs"
+          role="tablist"
+          aria-label="Core disciplines"
+          aria-orientation="horizontal"
+          onKeyDown={onKeyDown}
+        >
         {services.map((service, index) => {
           const { x, y } = at(index);
           return (
@@ -195,6 +219,7 @@ export default function ServiceOrbit({ services = [] }) {
             </button>
           );
         })}
+        </div>
       </div>
 
       <div
