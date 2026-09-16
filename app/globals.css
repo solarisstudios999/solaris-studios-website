@@ -214,6 +214,8 @@ p {
 .brand {
   display: inline-flex;
   align-items: center;
+  /* 44px: the logo alone left it at 42. */
+  min-height: 44px;
   gap: 12px;
   min-width: 0;
   color: var(--white);
@@ -261,6 +263,11 @@ p {
 
 .site-nav a {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  /* The padding alone came to 37px. Tablets at these widths are touch
+     devices and the rest of the site holds to 44. */
+  min-height: 44px;
   overflow: hidden;
   padding: 10px 18px;
   border-radius: 999px;
@@ -3399,8 +3406,15 @@ body:has(.contact-screen) {
 }
 
 @media (max-width: 560px) {
+  /* minmax(0, 1fr), not 1fr: a bare 1fr is minmax(auto, 1fr), and the auto
+     floor is the cell's min-content width - 60px of padding plus the longest
+     word - which at 320px pushed the two columns to 300px inside a 274px box. */
   .about-numbers__grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-numbers__cell {
+    padding: 22px 18px;
   }
 
   .beliefs-grid,
@@ -4407,22 +4421,70 @@ body:has(.contact-screen) {
 .clients {
   /* One base height the logos and any typeset name both work from. */
   --logo-base: clamp(44px, 5vw, 64px);
+  /* Shared by the row and by the trailing gap each copy carries in the
+     marquee - they have to be the same number or the loop jolts. */
+  --logo-gap: clamp(20px, 4vw, 56px);
   width: min(var(--max), calc(100% - var(--page-pad) * 2));
   margin: 0 auto;
-  padding-block: clamp(22px, 3vw, 34px);
+  /* Tighter than the proof bar it replaced. Four big numbers earned a deep
+     band; a row of logos reads as a credit line and a deep band around one
+     just looks like an empty shelf. */
+  padding-block: clamp(20px, 2.6vw, 28px);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 
+/* Crops the marquee. Nothing else clips, so the row cannot bleed into the
+   hero above or the section below. */
+.clients__viewport {
+  overflow: hidden;
+}
+
+.clients__track {
+  display: flex;
+  /* Centred while the row fits, which is the whole point of only turning the
+     marquee on when it does not. */
+  justify-content: center;
+  width: 100%;
+}
+
+.clients__track[data-marquee="true"] {
+  justify-content: flex-start;
+  width: max-content;
+  animation: clients-marquee var(--marquee-duration, 30s) linear infinite;
+}
+
+/* Exactly one copy, because each copy carries its own trailing gap. */
+@keyframes clients-marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Let someone stop it to look at a mark, or to reach a link with the keyboard
+   without it sliding away. */
+.clients__track[data-marquee="true"]:hover,
+.clients__track[data-marquee="true"]:focus-within {
+  animation-play-state: paused;
+}
+
 .clients__list {
   display: flex;
-  flex-wrap: wrap;
+  /* Never wraps. A row that fits is centred; a row that does not becomes the
+     marquee rather than stacking into rows of its own. */
+  flex-wrap: nowrap;
   align-items: center;
-  /* Centred rather than ranged left, which is the one arrangement that looks
-     deliberate at one logo and still looks right at eight. */
-  justify-content: center;
-  gap: clamp(20px, 4vw, 56px);
+  gap: var(--logo-gap);
   list-style: none;
+  /* flex: none, or the list shrinks to the track as any flex item does and
+     reports the squeezed width - the overflow that turns the marquee on would
+     never be measurable, because the row would always "fit" by being crushed. */
+  flex: none;
+}
+
+/* The gap between the two copies belongs to the copy, not to the track: half
+   of [copy][gap][copy] is one copy plus half a gap, and the loop would jolt
+   every lap. Carried as padding, half the track is exactly one copy. */
+.clients__track[data-marquee="true"] .clients__list {
+  padding-right: var(--logo-gap);
 }
 
 .clients__item {
@@ -4486,6 +4548,21 @@ a.clients__item:focus-visible .clients__logo {
 @media (prefers-reduced-motion: reduce) {
   .clients__logo,
   .clients__name { transition: none; }
+
+  /* Nothing scrolls by itself. The row becomes a scroll container the visitor
+     moves at their own pace, and the duplicate copy is harmless dead weight
+     at the end of it. */
+  .clients__track[data-marquee="true"] {
+    animation: none;
+    width: 100%;
+  }
+
+  .clients__viewport {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .clients__viewport::-webkit-scrollbar { display: none; }
 }
 
 /* ============================================================
@@ -5211,7 +5288,7 @@ html[data-daypart="night"] {
   flex: none;
   border: 1px solid currentColor;
   border-radius: 50%;
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0;
@@ -5298,6 +5375,15 @@ html[data-daypart="night"] {
 
 .brand__name {
   white-space: nowrap;
+}
+
+/* Between the width the desktop nav appears at and the width the wordmark
+   actually fits beside it, the two collide: the nav pill is a fixed 648px, and
+   what the 1fr columns have left over drops under the 168px the wordmark
+   needs. The mark alone stands in for that band. The link keeps its
+   aria-label, so its accessible name never depended on this text. */
+@media (min-width: 981px) and (max-width: 1139px) {
+  .brand__name { display: none; }
 }
 
 /* ============================================================
