@@ -36,7 +36,6 @@ export default async function HomePage() {
         <div className="hero__shade" aria-hidden="true" />
         <div className="hero__grid" aria-hidden="true" />
         <div className="hero__content">
-          <p className="eyebrow">Independent studio · Bangalore</p>
           <h1 id="hero-title">Brand systems that feel inevitable.</h1>
           <span className="red-rule" aria-hidden="true" />
           <p className="hero__lede">

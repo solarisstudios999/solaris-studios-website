@@ -38,7 +38,6 @@ export default function Header() {
 
   return (
     <header className={`site-header ${scrolled ? "is-scrolled" : ""} ${isHome ? "" : "is-solid"}`}>
-      <div className="header-left">
       <Link className="brand" href="/" aria-label="Solaris Studios home">
         <span className="brand__mark">
           <Image
@@ -52,8 +51,6 @@ export default function Header() {
         </span>
         <span className="brand__name">Solaris Studios</span>
       </Link>
-      <StudioClock />
-      </div>
       <button
         className="nav-toggle"
         type="button"
@@ -83,9 +80,15 @@ export default function Header() {
           Start Project
         </Link>
       </nav>
-      <Link className="header-cta" href="/contact" aria-current={pathname === "/contact" ? "page" : undefined}>
-        Start Project
-      </Link>
+      {/* One grid item, not two. The header is a three-column grid and a
+          fourth child drops to a second row - the clock sits inside this
+          wrapper, under the button, rather than beside it. */}
+      <div className="header-right">
+        <Link className="header-cta" href="/contact" aria-current={pathname === "/contact" ? "page" : undefined}>
+          Start Project
+        </Link>
+        <StudioClock />
+      </div>
     </header>
   );
 }

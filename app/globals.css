@@ -4583,7 +4583,10 @@ html[data-daypart="night"] {
   font-variant-numeric: tabular-nums;
 }
 
-@media (min-width: 1200px) {
+/* Shown from the width the desktop button appears at. The old 1200px was
+   about fitting beside the brand; under the button there is no such
+   competition, and below this the button itself moves into the nav. */
+@media (min-width: 981px) {
   .studio-clock { display: inline-flex; }
 }
 
@@ -5299,14 +5302,17 @@ html[data-daypart="night"] {
 /* The header grid is `1fr auto 1fr` and expects exactly three children:
    brand, nav, CTA. The clock shares the first column rather than becoming
    a fourth, which had pushed the CTA onto its own row. */
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 18px;
+/* The button and the clock, stacked. They are one grid item because the
+   header is a three-column grid and a fourth child drops to a second row. */
+.header-right {
+  justify-self: end;
+  display: grid;
+  justify-items: end;
+  gap: 6px;
   min-width: 0;
 }
 
-.header-left .brand__name {
+.brand__name {
   white-space: nowrap;
 }
 
