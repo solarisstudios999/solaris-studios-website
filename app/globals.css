@@ -4525,14 +4525,28 @@ html[data-daypart="night"] {
   --red-glow: rgba(232, 64, 47, 0.26);
 }
 
+/* Below the bar, not in it. Absolutely positioned against .site-header - which
+   is fixed, so it is already a containing block - so `top: 100%` puts it just
+   under the bar's bottom edge, clear of the background and the border that
+   edge carries when the header goes solid. It stays inside .header-right in
+   the markup so it cannot fall back into the grid as a fourth child and push
+   the row apart, which is how this broke once already. */
 .studio-clock {
   display: none;
+  position: absolute;
+  top: 100%;
+  right: var(--page-pad);
+  margin-top: 9px;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
   font-size: var(--t-label);
   letter-spacing: var(--track-caps);
-  color: rgba(230, 230, 230, 0.55);
+  /* Sits over the hero rather than over the bar's own backdrop now, so it
+     carries its own shadow to stay readable against whatever is behind it. */
+  color: rgba(238, 238, 238, 0.82);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9), 0 0 3px rgba(0, 0, 0, 0.8);
   font-variant-numeric: tabular-nums;
+  pointer-events: none;
 }
 
 /* Shown from the width the desktop button appears at. The old 1200px was
@@ -4543,10 +4557,25 @@ html[data-daypart="night"] {
 }
 
 .studio-clock__dot {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: var(--red);
+  /* The white ring rides on box-shadow rather than a border, so it adds no
+     size to the box and scales with the dot when it breathes. */
+  box-shadow:
+    0 0 0 1.5px rgba(255, 255, 255, 0.88),
+    0 0 10px var(--red-glow);
+  animation: clock-breathe 3s ease-in-out infinite;
+}
+
+@keyframes clock-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.22); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-clock__dot { animation: none; }
 }
 
 /* ============================================================
