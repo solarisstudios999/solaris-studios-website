@@ -4536,10 +4536,13 @@ html[data-daypart="night"] {
   position: absolute;
   top: 100%;
   right: var(--page-pad);
-  margin-top: 9px;
+  margin-top: 10px;
   align-items: center;
-  gap: 9px;
-  font-size: var(--t-label);
+  gap: 10px;
+  /* Its own size rather than the shared label token: this is no longer a
+     label inside the bar, it is a standalone mark below it, and it should be
+     able to grow without dragging every other label with it. */
+  font-size: 0.9375rem;
   letter-spacing: var(--track-caps);
   /* Sits over the hero rather than over the bar's own backdrop now, so it
      carries its own shadow to stay readable against whatever is behind it. */
@@ -4557,15 +4560,15 @@ html[data-daypart="night"] {
 }
 
 .studio-clock__dot {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: var(--red);
   /* The white ring rides on box-shadow rather than a border, so it adds no
      size to the box and scales with the dot when it breathes. */
   box-shadow:
-    0 0 0 1.5px rgba(255, 255, 255, 0.88),
-    0 0 10px var(--red-glow);
+    0 0 0 1.75px rgba(255, 255, 255, 0.88),
+    0 0 12px var(--red-glow);
   animation: clock-breathe 3s ease-in-out infinite;
 }
 
