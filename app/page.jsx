@@ -2,12 +2,12 @@ import Link from "next/link";
 import MagneticButton from "@/components/MagneticButton";
 import ProofBar from "@/components/ProofBar";
 import ProcessArc from "@/components/ProcessArc";
+import ServiceOrbit from "@/components/ServiceOrbit";
 import Eclipse from "@/components/Eclipse";
-import Teardown from "@/components/Teardown";
 import Reveal from "@/components/Reveal";
 import SeamlessHeroVideo from "@/components/SeamlessHeroVideo";
 import CaseStudy from "@/components/CaseStudy";
-import { proofPoints, processStages, projects, services, testimonials, teardown } from "@/lib/data";
+import { proofPoints, processStages, projects, services, testimonials } from "@/lib/data";
 
 export default function HomePage() {
   return (
@@ -59,9 +59,17 @@ export default function HomePage() {
         </div>
       </Reveal>
 
+      <Reveal as="section" className="section section--services" aria-labelledby="disciplines-title">
+        <div className="section__head">
+          <p className="eyebrow">02 / Core disciplines</p>
+          <h2 id="disciplines-title">The pieces we can help with.</h2>
+        </div>
+        <ServiceOrbit services={services} />
+      </Reveal>
+
       <Reveal as="section" className="section section--work" aria-labelledby="work-title">
         <div className="section__head">
-          <p className="eyebrow">02 / Work</p>
+          <p className="eyebrow">03 / Work</p>
           <h2 id="work-title">Creative systems built to hold attention.</h2>
         </div>
         {projects.length > 0 ? (
@@ -72,14 +80,6 @@ export default function HomePage() {
         <div className="section__more">
           <Link className="text-link" href="/portfolio">See all work →</Link>
         </div>
-      </Reveal>
-
-      <Reveal as="section" className="section" id="teardown" aria-labelledby="teardown-title">
-        <div className="section__head">
-          <p className="eyebrow">03 / What it is made of</p>
-          <h2 id="teardown-title">What are you actually paying for?</h2>
-        </div>
-        <Teardown layers={teardown.layers} caption={teardown.caption} />
       </Reveal>
 
       <Reveal as="section" className="section process-preview" aria-labelledby="process-preview-title">

@@ -6,30 +6,54 @@ import { useRef, useState } from "react";
 /**
  * 2 - Services as a solar system.
  *
- * Five disciplines as bodies around the sun, closest first. Selecting one shows
- * it below.
+ * The sun sits on the left edge and the five disciplines fan out from it along
+ * their orbits, closest first. Selecting one runs a beam of light out to it and
+ * opens it below, with what you actually get.
+ *
+ * The sun is at the edge rather than the middle for a plain reason: five labels
+ * long enough to read need somewhere to go. Centred, the inner ones sit on top
+ * of the sun and the outer ones run off the frame. Anchored left, every label
+ * has the whole width to extend into and collisions become impossible to have
+ * by accident. It also matches how light works everywhere else on this site -
+ * one source, off to one side, and everything lit from it.
  *
  * Two deliberate restraints, because this is the idea most likely to tip into
  * gimmick:
  *
  * 1. The bodies do not orbit. They sit at fixed points on the rings. A moving
- *    click target is hostile, and the arrangement carries the idea without the
- *    motion.
- * 2. It is a real tablist - arrow keys, Home/End, roving tabindex - and on
- *    narrow screens the same buttons reflow into an ordinary row of pills with
- *    the rings hidden. Nothing about the content depends on the diagram.
+ *    click target is hostile, and nothing here would be easier to use for
+ *    turning. The one thing that does move is the beam, because it is the
+ *    answer to "which of these am I looking at" - and one moving element is
+ *    a pointer, where five would just be weather.
+ * 2. It is a real tablist - arrow keys, Home/End, roving tabindex - and below
+ *    1000px the diagram vanishes and the same buttons reflow into an ordinary
+ *    row of pills. Nothing about the content depends on the diagram.
+ *
+ * Geometry: every number below is read as a percentage of the stage - of its
+ * width horizontally, of its height vertically. So a ring of radius r is just a
+ * box 2r% by 2r% with a 50% border radius, and a body at (cx + r·cos, cy +
+ * r·sin) lands exactly on it. The stage is wider than it is tall, so that one
+ * convention also tilts the rings for free, with no squash constant to keep in
+ * sync between the CSS and the JavaScript.
+ *
+ * The rings are CSS ellipses rather than SVG arcs on purpose. Curved SVG paths
+ * on a `preserveAspectRatio="none"` viewBox rasterise in pieces in this layout
+ * - the arc paints as disconnected fragments - while the straight beam on the
+ * same viewBox is fine. A bordered box has no such trouble, and the stage clips
+ * it, which is what turns each ring into the arc we actually want.
  */
-/* Angles chosen so every label's centre stays within a safe horizontal band.
-   The widest pill is about 29% of the stage, so an anchor past ~72% would run
-   the label off the edge - which is exactly what an outer body at 18 degrees
-   did. Radius still varies, so the rings read as a system; only the angle is
-   constrained. */
+
+/* Radii and angles measured from the sun. Chosen so no two labels can overlap
+   (a label is about 22% of the stage wide and 10% tall, so any pair clears on
+   one axis or the other) and so the innermost clears the sun's disc. */
+const SUN = { x: 8, y: 50 };
+
 const PLACES = [
-  { r: 20, a: 200 },
-  { r: 31, a: 310 },
-  { r: 27, a: 60 },
-  { r: 38, a: 240 },
-  { r: 44, a: 95 },
+  { r: 26, a: -48 },
+  { r: 32, a: 46 },
+  { r: 44, a: 4 },
+  { r: 56, a: 42 },
+  { r: 70, a: -22 },
 ];
 
 export default function ServiceOrbit({ services = [] }) {
@@ -49,7 +73,21 @@ export default function ServiceOrbit({ services = [] }) {
     tabs.current[next]?.focus();
   };
 
+  const at = (index) => {
+    const place = PLACES[index] || PLACES[PLACES.length - 1];
+    const rad = (place.a * Math.PI) / 180;
+    /* Rounded, because Node and V8 serialise the tail of a float differently
+       and React fails hydration on the mismatch. Three places is far finer
+       than a pixel at any width. */
+    return {
+      place,
+      x: Number((SUN.x + place.r * Math.cos(rad)).toFixed(3)),
+      y: Number((SUN.y + place.r * Math.sin(rad)).toFixed(3)),
+    };
+  };
+
   const current = services[active];
+  const lit = at(active);
 
   return (
     <div className="orbit">
@@ -60,40 +98,57 @@ export default function ServiceOrbit({ services = [] }) {
         aria-orientation="horizontal"
         onKeyDown={onKeyDown}
       >
+        {services.map((service, index) => (
+          <span
+            key={service.slug}
+            className="orbit__ring"
+            data-lit={index === active}
+            style={{ "--r": at(index).place.r }}
+            aria-hidden="true"
+          />
+        ))}
+
+        {/* Light leaving the sun for whichever discipline is open. */}
+        <svg
+          className="orbit__map"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <line
+            className="orbit__beam"
+            x1={SUN.x}
+            y1={SUN.y}
+            x2={lit.x}
+            y2={lit.y}
+          />
+        </svg>
+
         <span className="orbit__sun" aria-hidden="true" />
 
         {services.map((service, index) => {
-          const place = PLACES[index] || PLACES[PLACES.length - 1];
-          const rad = (place.a * Math.PI) / 180;
-          const x = 50 + place.r * Math.cos(rad);
-          // squashed vertically so the rings read as tilted, not flat circles
-          const y = 50 + place.r * 0.62 * Math.sin(rad);
+          const { x, y } = at(index);
           return (
-            <span key={service.slug} className="orbit__slot">
-              <span
-                className="orbit__ring"
-                style={{ "--r": `${place.r}%` }}
-                aria-hidden="true"
-              />
-              <button
-                type="button"
-                role="tab"
-                id={`orbit-tab-${service.slug}`}
-                aria-selected={index === active}
-                aria-controls="orbit-panel"
-                tabIndex={index === active ? 0 : -1}
-                ref={(node) => {
-                  tabs.current[index] = node;
-                }}
-                className="orbit__body"
-                style={{ "--x": `${x}%`, "--y": `${y}%` }}
-                data-near={y > 50}
-                onClick={() => setActive(index)}
-              >
-                <span className="orbit__dot" aria-hidden="true" />
-                <span className="orbit__name">{service.title}</span>
-              </button>
-            </span>
+            <button
+              key={service.slug}
+              type="button"
+              role="tab"
+              id={`orbit-tab-${service.slug}`}
+              aria-selected={index === active}
+              aria-controls="orbit-panel"
+              tabIndex={index === active ? 0 : -1}
+              ref={(node) => {
+                tabs.current[index] = node;
+              }}
+              className="orbit__body"
+              style={{ "--x": `${x}%`, "--y": `${y}%` }}
+              onClick={() => setActive(index)}
+            >
+              <span className="orbit__dot" aria-hidden="true">
+                {index + 1}
+              </span>
+              <span className="orbit__name">{service.title}</span>
+            </button>
           );
         })}
       </div>
@@ -109,6 +164,11 @@ export default function ServiceOrbit({ services = [] }) {
         </p>
         <h3 className="orbit__title">{current.title}</h3>
         <p className="orbit__body-copy">{current.body}</p>
+        <ul className="orbit__gives">
+          {current.deliverables.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
         <Link className="text-link" href={`/services#${current.slug}`}>
           Explore {current.title} →
         </Link>
