@@ -11,7 +11,24 @@ export default function SeamlessHeroVideo({ src, poster }) {
     if (!node) return undefined;
 
     const handleCanPlay = () => setLoaded(true);
-    node.addEventListener("canplay", handleCanPlay, { once: true });
+
+    /* The event may already have fired. This is a client component, so the
+       browser starts fetching the video while React is still hydrating, and on
+       anything but a slow connection `canplay` lands before this effect gets
+       to listen for it - the listener then never runs, `loaded` stays false,
+       and the video sits at opacity 0 behind the poster forever. Which is what
+       it did: the hero was a still image on every device.
+
+       readyState is the state the event announces, so asking for it directly
+       covers the case where the announcement has been and gone. */
+    if (node.readyState >= 2) {
+      setLoaded(true);
+    } else {
+      node.addEventListener("canplay", handleCanPlay, { once: true });
+      /* Belt and braces: canplay can be skipped when a decoded frame is
+         already available. */
+      node.addEventListener("loadeddata", handleCanPlay, { once: true });
+    }
 
     if (typeof window !== "undefined" && "IntersectionObserver" in window) {
       const observer = new IntersectionObserver(
@@ -32,6 +49,7 @@ export default function SeamlessHeroVideo({ src, poster }) {
 
       return () => {
         node.removeEventListener("canplay", handleCanPlay);
+        node.removeEventListener("loadeddata", handleCanPlay);
         observer.disconnect();
       };
     }
@@ -43,6 +61,7 @@ export default function SeamlessHeroVideo({ src, poster }) {
 
     return () => {
       node.removeEventListener("canplay", handleCanPlay);
+      node.removeEventListener("loadeddata", handleCanPlay);
     };
   }, []);
 
