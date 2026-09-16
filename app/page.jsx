@@ -1,15 +1,24 @@
 import Link from "next/link";
 import MagneticButton from "@/components/MagneticButton";
-import ProofBar from "@/components/ProofBar";
+import ClientLogos from "@/components/ClientLogos";
 import ProcessArc from "@/components/ProcessArc";
 import ServiceOrbit from "@/components/ServiceOrbit";
 import Eclipse from "@/components/Eclipse";
 import Reveal from "@/components/Reveal";
 import SeamlessHeroVideo from "@/components/SeamlessHeroVideo";
 import CaseStudy from "@/components/CaseStudy";
-import { proofPoints, processStages, projects, services, testimonials } from "@/lib/data";
+import { clients, processStages, projects, services, testimonials } from "@/lib/data";
+import { existsSync } from "node:fs";
+import path from "node:path";
 
 export default function HomePage() {
+  /* Server-side: only pass through logos that are actually on disk, so a
+     client added to the data before its file lands is skipped rather than
+     rendering a broken image in the first thing below the hero. */
+  const liveClients = clients.filter((client) =>
+    existsSync(path.join(process.cwd(), "public", client.logo)),
+  );
+
   return (
     <>
       <section className="hero hero--video" aria-labelledby="hero-title">
@@ -34,7 +43,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <ProofBar items={proofPoints} />
+      {/* "Shipped for" is true of everyone here today. Change it to
+          "Clients" the first time one of them is still mid-project. */}
+      <ClientLogos clients={liveClients} label="Shipped for" />
 
       <Reveal as="section" className="section section--intro" id="about">
         <div className="section__index">01 / About</div>
