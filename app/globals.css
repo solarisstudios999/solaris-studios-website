@@ -4431,8 +4431,11 @@ body:has(.contact-screen) {
   padding: 0 4px;
 }
 
+/* Taller than a logo strip usually runs, on purpose: these lockups carry a
+   descriptor line under the wordmark, and at the 30-40px a row of bare marks
+   would take, that line collapses into mush. */
 .clients__logo {
-  height: clamp(30px, 3.6vw, 42px);
+  height: clamp(44px, 5vw, 64px);
   width: auto;
   object-fit: contain;
   /* brightness(0) crushes every colour in the file to black, invert(1) lifts
