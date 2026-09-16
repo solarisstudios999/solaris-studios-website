@@ -34,6 +34,11 @@ export default function ClientLogos({ clients = [] }) {
               alt=""
               width={client.width}
               height={client.height}
+              /* Height is fixed and width follows the lockup's own ratio, so
+                 the widest of these lands around 300px. Without saying so,
+                 next/image sizes from the source file instead and a smaller
+                 original gets served under-resolved on a retina screen. */
+              sizes="320px"
               className="clients__logo"
             />
           );
