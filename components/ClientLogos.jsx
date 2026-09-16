@@ -16,9 +16,28 @@ import Image from "next/image";
  *
  * Logos keep their own proportions and are never stretched to a common box:
  * every one of these is somebody's trademark and squashing it to tidy up a row
- * is not ours to do. They are matched on height instead, which is how the eye
- * compares them anyway.
+ * is not ours to do.
+ *
+ * They are not matched on height either, which is the obvious thing and the
+ * wrong one. A wide lockup with its name in it and a square mark on its own,
+ * set to the same height, do not look the same size - the square one occupies
+ * a quarter of the width and reads as an afterthought. So a logo shorter than
+ * the reference gets some height back, by the square root of how far off it is
+ * and capped, which lands between matching height (too small) and matching
+ * area (grotesquely large). Real logo walls do the same thing by hand.
  */
+
+/* The aspect ratio the row is tuned around - roughly what a horizontal lockup
+   with a wordmark in it comes out at. */
+const REFERENCE_RATIO = 3.9;
+const MAX_BOOST = 1.5;
+
+function boost(width, height) {
+  if (!width || !height) return 1;
+  const ratio = width / height;
+  if (ratio >= REFERENCE_RATIO) return 1;
+  return Math.min(MAX_BOOST, Math.sqrt(REFERENCE_RATIO / ratio));
+}
 export default function ClientLogos({ clients = [] }) {
   if (!clients.length) return null;
 
@@ -40,6 +59,7 @@ export default function ClientLogos({ clients = [] }) {
                  original gets served under-resolved on a retina screen. */
               sizes="320px"
               className="clients__logo"
+              style={{ "--boost": boost(client.width, client.height).toFixed(3) }}
             />
           );
 

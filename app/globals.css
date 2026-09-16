@@ -4433,9 +4433,14 @@ body:has(.contact-screen) {
 
 /* Taller than a logo strip usually runs, on purpose: these lockups carry a
    descriptor line under the wordmark, and at the 30-40px a row of bare marks
-   would take, that line collapses into mush. */
+   would take, that line collapses into mush.
+
+   --boost comes from the component and is 1 for anything already as wide as a
+   lockup. A squarer mark gets more height so it does not read as an
+   afterthought beside them; see the note there for why it is a square root
+   and why it is capped. */
 .clients__logo {
-  height: clamp(44px, 5vw, 64px);
+  height: calc(clamp(44px, 5vw, 64px) * var(--boost, 1));
   width: auto;
   object-fit: contain;
   /* brightness(0) crushes every colour in the file to black, invert(1) lifts
