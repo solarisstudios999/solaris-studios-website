@@ -4405,6 +4405,8 @@ body:has(.contact-screen) {
    ============================================================ */
 
 .clients {
+  /* One base height the logos and any typeset name both work from. */
+  --logo-base: clamp(44px, 5vw, 64px);
   width: min(var(--max), calc(100% - var(--page-pad) * 2));
   margin: 0 auto;
   padding-block: clamp(22px, 3vw, 34px);
@@ -4427,9 +4429,33 @@ body:has(.contact-screen) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.44em;
   min-height: 44px;
   padding: 0 4px;
 }
+
+/* Set beside a mark that has no wordmark of its own.
+
+   Satoshi rather than the display face on purpose: this type is standing in
+   for a client's wordmark, so it should be neutral and let their mark lead,
+   not speak in Solaris's voice. Caps with a little tracking so it reads as a
+   wordmark rather than as a caption, which also puts it in step with AARNA
+   across the row. Sized off the same base as the logos so it tracks them. */
+.clients__name {
+  font-family: "Satoshi", Arial, sans-serif;
+  font-size: calc(var(--logo-base) * 0.38);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  white-space: nowrap;
+  color: #fff;
+  opacity: 0.62;
+  text-transform: uppercase;
+  transition: opacity 260ms var(--ease);
+}
+
+a.clients__item:hover .clients__name,
+a.clients__item:focus-visible .clients__name { opacity: 1; }
 
 /* Taller than a logo strip usually runs, on purpose: these lockups carry a
    descriptor line under the wordmark, and at the 30-40px a row of bare marks
@@ -4440,7 +4466,7 @@ body:has(.contact-screen) {
    afterthought beside them; see the note there for why it is a square root
    and why it is capped. */
 .clients__logo {
-  height: calc(clamp(44px, 5vw, 64px) * var(--boost, 1));
+  height: calc(var(--logo-base) * var(--boost, 1));
   width: auto;
   object-fit: contain;
   /* brightness(0) crushes every colour in the file to black, invert(1) lifts
@@ -4458,7 +4484,8 @@ a.clients__item:focus-visible .clients__logo {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .clients__logo { transition: none; }
+  .clients__logo,
+  .clients__name { transition: none; }
 }
 
 /* ============================================================

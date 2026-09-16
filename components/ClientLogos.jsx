@@ -14,6 +14,12 @@ import Image from "next/image";
  * source file's colour is irrelevant - only its shape and its transparency
  * matter.
  *
+ * A client whose mark carries no wordmark of its own can set `showName`, and
+ * the name is set in type beside it. That is our typesetting, not their
+ * lockup, so it is real text rather than baked into their artwork: it stays
+ * selectable, it scales, it is obvious what it is, and nobody later mistakes a
+ * PNG we composed for the logo they actually own.
+ *
  * Logos keep their own proportions and are never stretched to a common box:
  * every one of these is somebody's trademark and squashing it to tidy up a row
  * is not ours to do.
@@ -63,6 +69,17 @@ export default function ClientLogos({ clients = [] }) {
             />
           );
 
+          /* When the name is on screen it is the accessible name already, so
+             the wrapper must not repeat it - otherwise it is announced twice. */
+          const inner = client.showName ? (
+            <>
+              {mark}
+              <span className="clients__name">{client.name}</span>
+            </>
+          ) : (
+            mark
+          );
+
           return (
             <li key={client.slug}>
               {client.url ? (
@@ -71,10 +88,12 @@ export default function ClientLogos({ clients = [] }) {
                   href={client.url}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label={`${client.name} (opens in a new tab)`}
+                  aria-label={client.showName ? undefined : `${client.name} (opens in a new tab)`}
                 >
-                  {mark}
+                  {inner}
                 </a>
+              ) : client.showName ? (
+                <span className="clients__item">{inner}</span>
               ) : (
                 <span className="clients__item" role="img" aria-label={client.name}>
                   {mark}
