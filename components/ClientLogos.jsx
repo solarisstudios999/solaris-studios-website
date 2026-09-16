@@ -8,23 +8,22 @@ import Image from "next/image";
  * file in /public/assets/clients. Nothing here changes, which is the same deal
  * the case study makes.
  *
- * The only thing worth a decision per logo is `tone`, and it is a fact about
- * the artwork rather than a taste call: a mark drawn in a dark colour is
- * invisible on this page, so it gets a light plate to sit on. Reversed artwork
- * needs no plate and always looks better, so it is worth asking a client for.
+ * Every logo is flattened to a translucent white silhouette in CSS, so a row
+ * of marks from different brands reads as one band rather than a colour
+ * clash, and no logo needs to know what colour the page is. It also means the
+ * source file's colour is irrelevant - only its shape and its transparency
+ * matter.
  *
- * Logos are real images at their own proportions, never stretched to a common
- * box: every one of these is somebody's trademark and squashing it to tidy up
- * a row is not ours to do. They are matched on height instead, which is how
- * the eye compares them anyway.
+ * Logos keep their own proportions and are never stretched to a common box:
+ * every one of these is somebody's trademark and squashing it to tidy up a row
+ * is not ours to do. They are matched on height instead, which is how the eye
+ * compares them anyway.
  */
-export default function ClientLogos({ clients = [], label = "Clients" }) {
+export default function ClientLogos({ clients = [] }) {
   if (!clients.length) return null;
 
   return (
     <section className="clients" aria-label="Clients">
-      <p className="clients__label">{label}</p>
-
       <ul className="clients__list">
         {clients.map((client) => {
           /* alt is empty because the link or the wrapper carries the name -
@@ -44,7 +43,6 @@ export default function ClientLogos({ clients = [], label = "Clients" }) {
               {client.url ? (
                 <a
                   className="clients__item"
-                  data-tone={client.tone}
                   href={client.url}
                   target="_blank"
                   rel="noreferrer"
@@ -53,7 +51,7 @@ export default function ClientLogos({ clients = [], label = "Clients" }) {
                   {mark}
                 </a>
               ) : (
-                <span className="clients__item" data-tone={client.tone} role="img" aria-label={client.name}>
+                <span className="clients__item" role="img" aria-label={client.name}>
                   {mark}
                 </span>
               )}

@@ -4394,50 +4394,32 @@ body:has(.contact-screen) {
 
 /* ============================================================
    CLIENT LOGOS
-   The strip under the hero. Logos keep their own proportions and
-   are matched on height, never stretched to a common box - each
-   one is somebody's trademark.
+   The strip under the hero. Every mark is flattened to a
+   translucent white silhouette, so a row of logos from different
+   brands reads as one band instead of a colour clash, and no
+   logo has to be drawn for a dark page to sit on one.
 
-   A mark drawn in a dark colour cannot be seen on this page, so
-   it gets a light plate. Reversed artwork needs none. That is
-   what `data-tone` selects between, and it is the only thing
-   that differs per logo.
+   Logos keep their own proportions and are matched on height,
+   never stretched to a common box - each one is somebody's
+   trademark.
    ============================================================ */
 
 .clients {
   width: min(var(--max), calc(100% - var(--page-pad) * 2));
   margin: 0 auto;
-  /* Tighter than the proof bar it replaced. Four big numbers earned a deep
-     band; a row of logos reads as a credit line and a deep band around one
-     just looks like an empty shelf. */
-  padding-block: clamp(20px, 2.6vw, 28px);
+  padding-block: clamp(22px, 3vw, 34px);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  display: grid;
-  gap: 16px;
-}
-
-@media (min-width: 720px) {
-  .clients {
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: center;
-    gap: clamp(24px, 4vw, 52px);
-  }
-}
-
-.clients__label {
-  font-size: var(--t-label);
-  letter-spacing: var(--track-caps-wide);
-  text-transform: uppercase;
-  color: var(--muted);
-  white-space: nowrap;
 }
 
 .clients__list {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: clamp(14px, 2.5vw, 30px);
+  /* Centred rather than ranged left, which is the one arrangement that looks
+     deliberate at one logo and still looks right at eight. */
+  justify-content: center;
+  gap: clamp(20px, 4vw, 56px);
   list-style: none;
 }
 
@@ -4446,34 +4428,29 @@ body:has(.contact-screen) {
   align-items: center;
   justify-content: center;
   min-height: 44px;
-  border-radius: 10px;
-  transition: transform 260ms var(--ease), box-shadow 260ms var(--ease);
+  padding: 0 4px;
 }
-
-/* Something for a dark mark to be legible against. Warm rather than pure
-   white so it sits with the page instead of punching a hole in it. */
-.clients__item[data-tone="dark"] {
-  background: #f3f0e9;
-  padding: 9px 15px;
-}
-
-a.clients__item:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    calc(var(--shade-x) * 0.3) calc(var(--shade-y) * 0.3) 18px -12px rgb(0 0 0 / 0.8);
-}
-
-a.clients__item:focus-visible { transform: translateY(-2px); }
 
 .clients__logo {
-  height: clamp(26px, 3vw, 32px);
+  height: clamp(30px, 3.6vw, 42px);
   width: auto;
   object-fit: contain;
+  /* brightness(0) crushes every colour in the file to black, invert(1) lifts
+     that to white. Whatever the mark was drawn in, it arrives here as a clean
+     silhouette - which is also why the artwork has to be transparent, or the
+     silhouette is its background. */
+  filter: brightness(0) invert(1);
+  opacity: 0.62;
+  transition: opacity 260ms var(--ease);
+}
+
+a.clients__item:hover .clients__logo,
+a.clients__item:focus-visible .clients__logo {
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .clients__item { transition: none; }
-  a.clients__item:hover { transform: none; }
+  .clients__logo { transition: none; }
 }
 
 /* ============================================================

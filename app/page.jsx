@@ -10,14 +10,24 @@ import CaseStudy from "@/components/CaseStudy";
 import { clients, processStages, projects, services, testimonials } from "@/lib/data";
 import { existsSync } from "node:fs";
 import path from "node:path";
+import sharp from "sharp";
 
-export default function HomePage() {
-  /* Server-side: only pass through logos that are actually on disk, so a
-     client added to the data before its file lands is skipped rather than
-     rendering a broken image in the first thing below the hero. */
-  const liveClients = clients.filter((client) =>
-    existsSync(path.join(process.cwd(), "public", client.logo)),
-  );
+export default async function HomePage() {
+  /* Server-side, at build: skip any client whose artwork is not on disk yet,
+     and measure the files that are. Reading the real dimensions here rather
+     than declaring them in the data means replacing a logo is dropping the new
+     file in and nothing else - no second edit to keep in step, and no way to
+     leave a stale aspect ratio behind that squashes somebody's trademark. */
+  const liveClients = (
+    await Promise.all(
+      clients.map(async (client) => {
+        const file = path.join(process.cwd(), "public", client.logo);
+        if (!existsSync(file)) return null;
+        const { width, height } = await sharp(file).metadata();
+        return { ...client, width, height };
+      }),
+    )
+  ).filter(Boolean);
 
   return (
     <>
@@ -43,9 +53,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* "Shipped for" is true of everyone here today. Change it to
-          "Clients" the first time one of them is still mid-project. */}
-      <ClientLogos clients={liveClients} label="Shipped for" />
+      <ClientLogos clients={liveClients} />
 
       <Reveal as="section" className="section section--intro" id="about">
         <div className="section__index">01 / About</div>
