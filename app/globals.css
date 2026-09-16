@@ -750,7 +750,9 @@ p {
 .section {
   width: min(var(--max), calc(100% - var(--page-pad) * 2));
   margin: 0 auto;
-  padding: 148px 0;
+  /* was a flat 148px, which put 296px of dead space between every section
+     and was most of why the page read as a showreel with gaps. */
+  padding: clamp(64px, 8vw, 104px) 0;
 }
 
 .section--intro {
@@ -4504,7 +4506,7 @@ html[data-daypart="night"] {
 
 .parc__sky {
   position: relative;
-  height: clamp(110px, 16vw, 190px);
+  height: clamp(76px, 9vw, 116px);
 }
 
 .parc__path {
@@ -4573,8 +4575,9 @@ html[data-daypart="night"] {
 
 @media (min-width: 900px) {
   .parc__stages {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 20px;
+    /* three across, two rows - six columns made every stage unreadably narrow */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px 34px;
   }
 }
 
@@ -4595,13 +4598,13 @@ html[data-daypart="night"] {
 }
 
 .parc__title {
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   line-height: 1.2;
   margin-bottom: 6px;
 }
 
 .parc__body {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.55;
   color: rgba(230, 230, 230, 0.7);
 }
