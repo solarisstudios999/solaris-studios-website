@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import StudioClock from "@/components/StudioClock";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -50,6 +51,7 @@ export default function Header() {
         </span>
         <span className="brand__name">Solaris Studios</span>
       </Link>
+      <StudioClock />
       <button
         className="nav-toggle"
         type="button"

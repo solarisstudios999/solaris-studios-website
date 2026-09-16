@@ -4325,3 +4325,565 @@ body:has(.contact-screen) {
   color: var(--paragraph);
   max-width: 52ch;
 }
+
+/* ============================================================
+   1 - THE SITE IS ONE DAY
+   A single light source travels with scroll: top-right at the
+   hero, overhead near the middle, low-left by the footer. Every
+   glow and shadow below derives its direction from it.
+   Written by ExperienceEffects, which already ran a scroll loop.
+   ============================================================ */
+
+:root {
+  /* Hero position. Also the static fallback under reduced motion
+     and before hydration. */
+  --sun-x: 0.88;
+  --sun-y: 0.16;
+
+  /* A low sun throws further than a high one. */
+  --sun-reach: calc(16px + var(--sun-y) * 30px);
+  --shade-x: calc((0.5 - var(--sun-x)) * var(--sun-reach));
+  --shade-y: calc(8px + var(--sun-y) * 34px);
+}
+
+/* Surfaces cast away from the light. */
+.service-card,
+.work-card,
+.portfolio-card,
+.service-showcase,
+.process-chips article,
+.team-card,
+.belief-card,
+.case__frame,
+.origin__frame {
+  box-shadow: var(--shade-x) var(--shade-y) 40px -22px rgb(0 0 0 / 0.9);
+}
+
+/* Gold-free version of the bloom: warm red, screened so overlapping
+   glows add light instead of turning muddy. */
+.service-card,
+.process-chips article,
+.belief-card {
+  background-image: radial-gradient(
+    130% 120% at calc(var(--sun-x) * 100%) calc(var(--sun-y) * 100%),
+    rgb(255 59 48 / 0.07),
+    rgb(255 59 48 / 0) 62%
+  );
+}
+
+.button--primary,
+.header-cta {
+  box-shadow:
+    calc(var(--shade-x) * 0.4) calc(var(--shade-y) * 0.4) 22px -14px
+    rgb(255 59 48 / 0.55);
+}
+
+/* Dividers brighten where the light currently falls. */
+.section--services .section__head,
+.process-preview .section__body {
+  border-image: linear-gradient(
+      90deg,
+      rgb(255 59 48 / 0.04),
+      rgb(255 59 48 / 0.3) calc(var(--sun-x) * 100%),
+      rgb(255 59 48 / 0.04)
+    )
+    1;
+}
+
+/* ============================================================
+   7 - PROOF BAR
+   Four facts, set once and still, where the ticker used to loop.
+   ============================================================ */
+
+.proofbar {
+  width: min(var(--max), calc(100% - var(--page-pad) * 2));
+  margin: 0 auto;
+  padding-block: clamp(28px, 4vw, 48px);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.proofbar__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 20px;
+}
+
+@media (min-width: 860px) {
+  .proofbar__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+.proofbar__item {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.proofbar__value {
+  font-family: var(--font-display), "Satoshi", Arial, sans-serif;
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  font-weight: 800;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  color: var(--white);
+}
+
+.proofbar__label {
+  font-size: var(--t-label);
+  letter-spacing: var(--track-caps-wide);
+  text-transform: uppercase;
+  color: rgba(230, 230, 230, 0.6);
+}
+
+/* ============================================================
+   6 - THE STUDIO KNOWS WHAT TIME IT IS
+   The accent follows Bangalore's clock, not the visitor's. Every
+   pair below was measured: accent >= 4.5:1 as text on black, and
+   the button surface >= 4.5:1 under white.
+   ============================================================ */
+
+html[data-daypart="dawn"] {
+  --red: #ff9478;      /* 9.76:1 on black */
+  --red-cta: #bb5540;  /* 4.68:1 with white */
+  --red-glow: rgba(255, 148, 120, 0.3);
+}
+
+html[data-daypart="day"] {
+  --red: #ff3b30;      /* 5.92:1 */
+  --red-cta: #d42a19;  /* 5.07:1 */
+}
+
+html[data-daypart="dusk"] {
+  --red: #ff7433;      /* 7.80:1 */
+  --red-cta: #bd5a18;  /* 4.53:1 */
+  --red-glow: rgba(255, 116, 51, 0.3);
+}
+
+html[data-daypart="night"] {
+  --red: #e8553c;      /* 5.80:1 */
+  --red-cta: #b8402c;  /* 5.51:1 */
+  --red-glow: rgba(232, 85, 60, 0.26);
+}
+
+.studio-clock {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--t-label);
+  letter-spacing: var(--track-caps);
+  color: rgba(230, 230, 230, 0.55);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 1024px) {
+  .studio-clock { display: inline-flex; }
+}
+
+.studio-clock__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+/* ============================================================
+   3 - PROCESS AS A SUNRISE
+   The sun rides `2t(1-t)`, which is precisely the curve the SVG
+   quadratic Q 50,0 100,100 traces - so the dot sits on the drawn
+   line at every width, with no hardcoded pixels.
+   ============================================================ */
+
+.parc {
+  --arc: 0.5;
+  --sun-size: clamp(18px, 2.4vw, 26px);
+  margin-top: clamp(28px, 4vw, 44px);
+}
+
+.parc__sky {
+  position: relative;
+  height: clamp(110px, 16vw, 190px);
+}
+
+.parc__path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.parc__path path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.26);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+/* Stage markers, sitting on the same parabola. */
+.parc__node {
+  position: absolute;
+  left: calc(var(--t) * 100%);
+  bottom: calc(var(--ty) * 100%);
+  width: 7px;
+  height: 7px;
+  margin: 0 0 -3.5px -3.5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  transition: background-color 400ms var(--ease), box-shadow 400ms var(--ease);
+}
+
+.parc__node[data-lit="true"] {
+  background: var(--red);
+  box-shadow: 0 0 10px var(--red-glow);
+}
+
+.parc__sun {
+  position: absolute;
+  left: calc(var(--arc) * 100%);
+  bottom: calc(2 * var(--arc) * (1 - var(--arc)) * 100%);
+  width: var(--sun-size);
+  height: var(--sun-size);
+  margin-left: calc(var(--sun-size) / -2);
+  margin-bottom: calc(var(--sun-size) / -2);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 36% 32%,
+    #ffe3ab 0%,
+    #ffab4a 26%,
+    #ff6a2a 52%,
+    var(--red) 76%,
+    #6d1009 100%
+  );
+  box-shadow:
+    inset -0.1em -0.12em 0.25em rgba(74, 8, 4, 0.7),
+    0 0 18px var(--red-glow),
+    0 0 44px rgba(255, 59, 48, 0.2);
+}
+
+.parc__stages {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 18px;
+  margin-top: 26px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 900px) {
+  .parc__stages {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+.parc__stage {
+  opacity: 0.42;
+  transition: opacity 500ms var(--ease);
+}
+
+.parc__stage[data-lit="true"] { opacity: 1; }
+
+.parc__num {
+  display: block;
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: var(--track-caps-wide);
+  color: var(--red);
+  margin-bottom: 8px;
+}
+
+.parc__title {
+  font-size: 1.05rem;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.parc__body {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: rgba(230, 230, 230, 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parc__stage,
+  .parc__node { transition: none; }
+}
+
+/* ============================================================
+   4 - THE ECLIPSE CTA
+   Backdrop only. The headline and buttons above it are plain
+   markup and never depend on this running.
+   ============================================================ */
+
+.eclipse {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.home-cta__inner { position: relative; }
+/* keep the words above the sky */
+.home-cta__inner > *:not(.eclipse) { position: relative; z-index: 1; }
+
+.eclipse__sun,
+.eclipse__moon,
+.eclipse__corona {
+  position: absolute;
+  top: 50%;
+  border-radius: 50%;
+}
+
+.eclipse__sun {
+  left: 50%;
+  width: clamp(120px, 17vw, 220px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle at 38% 34%,
+    #ffe9c4 0%,
+    #ffab4a 30%,
+    var(--red) 66%,
+    #6d1009 100%
+  );
+  opacity: 0.85;
+}
+
+/* Flares at totality, gone at the edges. */
+.eclipse__corona {
+  left: 50%;
+  width: clamp(260px, 42vw, 620px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgb(255 255 255 / 0.22) 0%,
+    var(--red-glow) 22%,
+    rgb(255 59 48 / 0.12) 42%,
+    rgb(255 59 48 / 0) 68%
+  );
+  opacity: calc(0.15 + var(--totality) * 0.85);
+}
+
+/* Travels right to left across the disc. */
+.eclipse__moon {
+  left: calc(50% + (0.5 - var(--t)) * 2 * clamp(180px, 26vw, 340px));
+  width: clamp(120px, 17vw, 220px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: var(--black);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* hold at totality rather than animate */
+  .eclipse__moon { left: 50%; }
+  .eclipse__corona { opacity: 1; }
+}
+
+/* ============================================================
+   5 - SCROLL THROUGH THE WHOLE STORE
+   One tall capture panning inside the browser frame. The travel
+   distance is derived from the image's real dimensions, so a
+   different capture needs no CSS change.
+   ============================================================ */
+
+.case__screen--pan {
+  position: relative;
+  overflow: hidden;
+}
+
+/* The generic `.case__screen img` rule hides anything without
+   data-active and forces height:100% + object-fit:cover. The tall
+   capture needs its natural height and must not be hidden. */
+.case__screen--pan .case__tall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  opacity: 1;
+  object-fit: fill;
+  transform: translateY(calc(var(--pan) * var(--pan-range) * -1));
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case__tall { transform: none; }
+}
+
+/* ============================================================
+   2 - SERVICES AS A SOLAR SYSTEM
+   Fixed positions on the rings, not orbiting - a moving click
+   target is hostile. Below 900px the rings vanish and the same
+   buttons reflow into an ordinary row of pills.
+   ============================================================ */
+
+.orbit {
+  display: grid;
+  gap: 32px;
+  margin-top: clamp(24px, 4vw, 40px);
+}
+
+@media (min-width: 1000px) {
+  .orbit {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 56px;
+    align-items: center;
+  }
+}
+
+.orbit__stage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (min-width: 900px) {
+  .orbit__stage {
+    display: block;
+    position: relative;
+    aspect-ratio: 1 / 0.72;
+  }
+}
+
+.orbit__sun { display: none; }
+
+@media (min-width: 900px) {
+  .orbit__sun {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: clamp(46px, 6vw, 74px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 36% 32%,
+      #ffe3ab 0%,
+      #ffab4a 26%,
+      #ff6a2a 52%,
+      var(--red) 76%,
+      #6d1009 100%
+    );
+    box-shadow: 0 0 26px var(--red-glow), 0 0 70px rgba(255, 59, 48, 0.18);
+  }
+}
+
+.orbit__ring { display: none; }
+
+@media (min-width: 900px) {
+  .orbit__ring {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: calc(var(--r) * 2);
+    height: calc(var(--r) * 2 * 0.62);
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+}
+
+/* Mobile: an ordinary pill. Desktop: a body on its ring. */
+.orbit__body {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 250ms var(--ease), color 250ms var(--ease),
+    background-color 250ms var(--ease);
+}
+
+.orbit__body:hover { border-color: rgba(255, 59, 48, 0.5); color: var(--white); }
+
+.orbit__body[aria-selected="true"] {
+  background: var(--red-cta);
+  border-color: var(--red-cta);
+  color: var(--white);
+}
+
+@media (min-width: 900px) {
+  .orbit__body {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    transform: translate(-50%, -50%);
+    padding: 0 14px;
+    background: rgba(7, 7, 7, 0.82);
+    backdrop-filter: blur(3px);
+  }
+}
+
+.orbit__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.orbit__index {
+  font-size: var(--t-label);
+  letter-spacing: var(--track-caps-wide);
+  color: var(--red);
+  font-variant-numeric: tabular-nums;
+}
+
+.orbit__title {
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  margin: 10px 0 14px;
+}
+
+.orbit__body-copy {
+  color: var(--paragraph);
+  max-width: 46ch;
+  margin-bottom: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit__body { transition: none; }
+}
+
+/* ============================================================
+   TAP TARGETS
+   Site-wide, not part of the creative pass: these classes were
+   all under the 44px minimum on mobile. .text-link is only ever
+   used as a standalone link, never inline in a sentence, so
+   giving it a height cannot break a paragraph.
+   ============================================================ */
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.site-footer .contact-line {
+  min-height: 44px;
+}
+
+.skip-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}

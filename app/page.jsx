@@ -1,10 +1,13 @@
 import Link from "next/link";
 import MagneticButton from "@/components/MagneticButton";
-import Marquee from "@/components/Marquee";
+import ProofBar from "@/components/ProofBar";
+import ProcessArc from "@/components/ProcessArc";
+import Eclipse from "@/components/Eclipse";
+import ServiceOrbit from "@/components/ServiceOrbit";
 import Reveal from "@/components/Reveal";
 import SeamlessHeroVideo from "@/components/SeamlessHeroVideo";
 import CaseStudy from "@/components/CaseStudy";
-import { marqueeWords, processStages, projects, services, testimonials } from "@/lib/data";
+import { proofPoints, processStages, projects, services, testimonials } from "@/lib/data";
 
 export default function HomePage() {
   return (
@@ -31,7 +34,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Marquee items={marqueeWords} />
+      <ProofBar items={proofPoints} />
 
       <Reveal as="section" className="section section--intro" id="about">
         <div className="section__index">01 / About</div>
@@ -61,18 +64,7 @@ export default function HomePage() {
           <p className="eyebrow">02 / Core disciplines</p>
           <h2 id="disciplines-title">The pieces we can help with.</h2>
         </div>
-        <div className="service-grid">
-          {services.map((service, index) => (
-            <article className="service-card" key={service.title}>
-              <div className="service-card__top">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <Link href={`/services#${service.slug}`}>Explore</Link>
-              </div>
-              <h3>{service.title}</h3>
-              <p>{service.body}</p>
-            </article>
-          ))}
-        </div>
+        <ServiceOrbit services={services} />
       </Reveal>
 
       <Reveal as="section" className="section section--work" aria-labelledby="work-title">
@@ -94,15 +86,7 @@ export default function HomePage() {
         <div className="section__index">04 / Process</div>
         <div className="section__body">
           <h2 id="process-preview-title">A clear process from idea to launch.</h2>
-          <div className="process-chips">
-            {processStages.slice(0, 3).map((stage, index) => (
-              <article key={stage.title}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <h3>{stage.title}</h3>
-                <p>{stage.body}</p>
-              </article>
-            ))}
-          </div>
+          <ProcessArc stages={processStages} />
           <Link className="text-link" href="/process">
             See the full sequence →
           </Link>
@@ -132,6 +116,7 @@ export default function HomePage() {
 
       <Reveal as="section" className="section home-cta" aria-label="Start a project">
         <div className="home-cta__inner">
+          <Eclipse />
           <p className="eyebrow">Next move</p>
           <h2>Have something you want to shape?</h2>
           <p>We are taking a small number of new projects this quarter. WhatsApp is the fastest way in.</p>

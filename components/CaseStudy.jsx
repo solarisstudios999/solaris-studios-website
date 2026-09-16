@@ -20,9 +20,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
  */
 export default function CaseStudy({ project, priority = false }) {
   const shots = project.shots || [];
+  const full = project.fullShot || null;
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [inView, setInView] = useState(false);
+  /* The tall capture is 73KB and native lazy-loading pulls it in far too
+     early on mobile, where it competes with LCP. Do not render it at all
+     until the panel is genuinely close. */
+  const [armed, setArmed] = useState(false);
   const rootRef = useRef(null);
   const tabRefs = useRef([]);
 
@@ -35,7 +40,22 @@ export default function CaseStudy({ project, priority = false }) {
       { threshold: 0.25 },
     );
     io.observe(node);
-    return () => io.disconnect();
+
+    const near = new IntersectionObserver(
+      ([entry]) => {
+        if (entry && entry.isIntersecting) {
+          setArmed(true);
+          near.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    near.observe(node);
+
+    return () => {
+      io.disconnect();
+      near.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -46,6 +66,38 @@ export default function CaseStudy({ project, priority = false }) {
     }, 4000);
     return () => window.clearInterval(id);
   }, [paused, inView, shots.length]);
+
+  /* 5 - pan the whole storefront as the section scrolls. Same gated pattern as
+     the rotation: the listener only exists while the panel is on screen. */
+  const [pan, setPan] = useState(0);
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node || !full) return undefined;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    let frame = 0;
+    const read = () => {
+      frame = 0;
+      const rect = node.getBoundingClientRect();
+      const span = rect.height + window.innerHeight;
+      setPan(Math.min(1, Math.max(0, (window.innerHeight - rect.top) / span)));
+    };
+    const onScroll = () => {
+      if (frame === 0) frame = requestAnimationFrame(read);
+    };
+    if (!inView) return undefined;
+    window.addEventListener("scroll", onScroll, { passive: true });
+    read();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [full, inView]);
+
+  /* How far the tall image can travel inside a 16:10 window, as a percentage of
+     its own height. Derived from the real dimensions, never hardcoded. */
+  const panRange = full
+    ? (1 - (10 / 16) / (full.height / full.width)) * 100
+    : 0;
 
   /* Any deliberate interaction hands control over for good. */
   const choose = useCallback((index) => {
@@ -84,11 +136,23 @@ export default function CaseStudy({ project, priority = false }) {
               <span />
               <span />
             </span>
-            <span className="case__url">{current ? current.path : project.domain}</span>
+            <span className="case__url">{full ? project.domain : current ? current.path : project.domain}</span>
           </div>
 
-          <div className="case__screen">
-            {shots.map((shot, index) => (
+          <div className={`case__screen${full ? " case__screen--pan" : ""}`}>
+            {full && armed ? (
+              <Image
+                src={full.src}
+                alt={full.alt}
+                width={full.width}
+                height={full.height}
+                sizes="(min-width: 1080px) 660px, 100vw"
+                quality={78}
+                className="case__tall"
+                style={{ "--pan": pan, "--pan-range": `${panRange}%` }}
+              />
+            ) : null}
+            {!full && shots.map((shot, index) => (
               <Image
                 key={shot.src}
                 src={shot.src}
@@ -103,7 +167,7 @@ export default function CaseStudy({ project, priority = false }) {
           </div>
         </div>
 
-        {shots.length > 1 ? (
+        {!full && shots.length > 1 ? (
           <div
             className="case__tabs"
             role="tablist"
