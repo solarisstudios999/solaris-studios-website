@@ -5019,3 +5019,143 @@ html[data-daypart="night"] {
       linear-gradient(#000 0 0);
   }
 }
+
+/* ============================================================
+   THE TEARDOWN
+   The finished store with a layer peeled off it. Both frames are
+   real renders; the stripped one was made by switching that
+   layer off on the live site, not by mocking up a "before".
+   ============================================================ */
+
+.td { margin: 0; }
+
+.td__frame {
+  --peel: 0%;
+  position: relative;
+  aspect-ratio: 1400 / 957;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--soft-black);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: var(--shade-x) var(--shade-y) 50px -26px rgb(0 0 0 / 0.9);
+}
+
+.td__img { object-fit: cover; }
+
+/* The finished store is clipped away from the top as the seam descends. */
+.td__top {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(var(--peel) 0 0 0);
+}
+
+.td__seam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--peel);
+  height: 2px;
+  margin-top: -1px;
+  background: var(--red);
+  box-shadow: 0 0 18px var(--red-glow);
+  pointer-events: none;
+}
+
+.td__grip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46px;
+  height: 46px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  border: 2px solid var(--red);
+  background: rgba(7, 7, 7, 0.72);
+  backdrop-filter: blur(3px);
+}
+
+.td__grip::before,
+.td__grip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 12px;
+  height: 2px;
+  background: var(--red);
+  transform: translateX(-50%);
+}
+.td__grip::before { top: 16px; }
+.td__grip::after { bottom: 16px; }
+
+.td__tag {
+  position: absolute;
+  right: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(7, 7, 7, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: var(--track-caps-wide);
+  text-transform: uppercase;
+  color: var(--white);
+  transition: opacity 300ms var(--ease), border-color 300ms var(--ease);
+}
+
+.td__tag--on { top: 14px; }
+.td__tag--on[data-dim="true"] { opacity: 0.35; }
+
+.td__tag--off { bottom: 14px; opacity: 0.35; }
+.td__tag--off[data-lit="true"] {
+  opacity: 1;
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* Transparent, covers the frame, so dragging anywhere works - and it is a
+   real range input, so keyboard support is free. */
+.td__range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ns-resize;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+.td__frame:focus-within {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}
+
+.td__caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 18px;
+  margin-top: 16px;
+}
+
+.td__caption-strip {
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: var(--track-caps-wide);
+  text-transform: uppercase;
+  color: rgba(230, 230, 230, 0.5);
+  transition: color 300ms var(--ease);
+}
+
+.td__caption-strip[data-lit="true"] { color: var(--red); }
+
+.td__caption-note {
+  font-size: 0.875rem;
+  color: rgba(230, 230, 230, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .td__tag, .td__caption-strip { transition: none; }
+}

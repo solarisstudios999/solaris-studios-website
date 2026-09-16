@@ -4,10 +4,11 @@ import ProofBar from "@/components/ProofBar";
 import ProcessArc from "@/components/ProcessArc";
 import Eclipse from "@/components/Eclipse";
 import ServiceOrbit from "@/components/ServiceOrbit";
+import Teardown from "@/components/Teardown";
 import Reveal from "@/components/Reveal";
 import SeamlessHeroVideo from "@/components/SeamlessHeroVideo";
 import CaseStudy from "@/components/CaseStudy";
-import { proofPoints, processStages, projects, services, testimonials } from "@/lib/data";
+import { proofPoints, processStages, projects, services, testimonials, teardown } from "@/lib/data";
 
 export default function HomePage() {
   return (
@@ -80,6 +81,14 @@ export default function HomePage() {
         <div className="section__more">
           <Link className="text-link" href="/portfolio">See all work →</Link>
         </div>
+      </Reveal>
+
+      <Reveal as="section" className="section" id="teardown" aria-labelledby="teardown-title">
+        <div className="section__head">
+          <p className="eyebrow">Teardown - one layer, for review</p>
+          <h2 id="teardown-title">What are you actually paying for?</h2>
+        </div>
+        <Teardown layers={teardown.layers} caption={teardown.caption} />
       </Reveal>
 
       <Reveal as="section" className="section process-preview" aria-labelledby="process-preview-title">
