@@ -257,7 +257,12 @@ p {
   background: rgba(0, 0, 0, 0.42);
 }
 
-.site-nav__cta {
+/* Matched to `.site-nav a` below, which sets a display of its own and would
+   otherwise win this on both specificity and source order - putting a second
+   Start Project inside the nav beside the one in the header. The mobile rule
+   that reveals it uses this same selector and comes later, so it still wins
+   there. */
+.site-nav a.site-nav__cta {
   display: none;
 }
 
