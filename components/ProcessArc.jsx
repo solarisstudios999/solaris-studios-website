@@ -14,6 +14,10 @@ const BAND = 86;
    with nothing but `left` and `bottom`. */
 const CURVE = `M${PAD},100 Q${PAD + BAND / 2},0 ${PAD + BAND},100`;
 
+/* Node and V8 serialise the tail of a float differently and React fails
+   hydration on the mismatch. */
+const round = (n) => Number(n.toFixed(3));
+
 /**
  * 3 - Process as a day you can scrub.
  *
@@ -24,8 +28,9 @@ const CURVE = `M${PAD},100 Q${PAD + BAND / 2},0 ${PAD + BAND},100`;
  * The sun rides a parabola in CSS - `2t(1-t)` - which is exactly the curve the
  * SVG quadratic `Q 50,0 100,100` traces, so the dot sits on the drawn line at
  * every width without a single hardcoded pixel. The trail is the same path
- * again with `pathLength="100"`, so `stroke-dashoffset: 100 - 100t` reveals precisely
- * the stretch the sun has covered - no second geometry to keep in sync.
+ * again, clipped at the x the sun has reached - which is exactly the stretch
+ * it has covered, since x is linear in t on this curve. No second geometry to
+ * keep in sync.
  *
  * Two things drive it, and only one at a time:
  *
@@ -150,12 +155,18 @@ export default function ProcessArc({ stages = [] }) {
         >
           <path className="parc__track" d={CURVE} vectorEffect="non-scaling-stroke" />
           {/* The same curve, revealed to exactly where the sun has reached. */}
-          <path
-            className="parc__trail"
-            d={CURVE}
-            pathLength="100"
-            vectorEffect="non-scaling-stroke"
-          />
+          {/* Revealed by a clip, not by a dash. Dashes were the obvious way and
+              they are not portable here: the stroke is non-scaling, and WebKit
+              measures dash lengths for a non-scaling stroke in device pixels
+              rather than user units, so the pattern repeated along the curve
+              and the trail rendered as broken segments in Safari. A clip has
+              no such ambiguity. It is exact rather than an approximation,
+              because the control point sits midway between the ends, which
+              makes x linear in t - so clipping at x is clipping at t. */}
+          <clipPath id="parc-reveal">
+            <rect x="0" y="0" height="100" width={round(PAD + BAND * sun)} />
+          </clipPath>
+          <path className="parc__trail" d={CURVE} clipPath="url(#parc-reveal)" vectorEffect="non-scaling-stroke" />
         </svg>
 
         {stages.map((stage, index) => {

@@ -4701,8 +4701,8 @@ html[data-daypart="night"] {
    The sun rides `2t(1-t)`, which is precisely the curve the SVG
    quadratic Q 50,0 100,100 traces - so the dot sits on the drawn
    line at every width, with no hardcoded pixels. The trail is
-   that same path with pathLength=100, so a dash offset of
-   100 - 100t reveals exactly the stretch already covered.
+   that same path, clipped at the x the sun has reached - exactly
+   the stretch already covered, because x is linear in t here.
 
    `--noon` (0 on the horizon, 1 overhead) drives the weather:
    the low sun swells and the bloom beneath it fades as it sets.
@@ -4777,8 +4777,6 @@ html[data-daypart="night"] {
   stroke: var(--red);
   stroke-width: 1.5;
   stroke-linecap: round;
-  stroke-dasharray: 100;
-  stroke-dashoffset: calc(100 - var(--arc) * 100);
   filter: drop-shadow(0 0 6px var(--red-glow));
 }
 
@@ -4839,9 +4837,8 @@ html[data-daypart="night"] {
     width 620ms var(--ease), height 620ms var(--ease), margin 620ms var(--ease);
 }
 
-.parc[data-parked="true"] .parc__trail {
-  transition: stroke-dashoffset 620ms var(--ease);
-}
+/* Nothing to ease here any more - the reveal is a clip rect that follows the
+   sun, and it lands wherever the sun lands. */
 
 /* ---- the scale ---------------------------------------------
    A ruler of the whole day. On narrow screens it scrolls
