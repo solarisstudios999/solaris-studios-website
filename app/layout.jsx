@@ -32,6 +32,8 @@ export const metadata = {
     "content systems",
     "brand strategy",
     "Next.js website design",
+    "AI-native studio",
+    "Claude",
   ],
   authors: [{ name: "Solaris Studios" }],
   creator: "Solaris Studios",

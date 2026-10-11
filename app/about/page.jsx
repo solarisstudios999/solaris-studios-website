@@ -57,6 +57,11 @@ export default function AboutPage() {
           Solaris is an independent brand, web, and content studio based in {studio.location}.
           We work with founders and teams who want clarity without losing edge.
         </p>
+        <p className="page-lede">
+          We are an AI-native studio. Claude is part of how we research, write and build - it lets
+          a small team move with the speed of a bigger one. Every decision, every pixel and every
+          word that ships is still reviewed by people.
+        </p>
       </Reveal>
 
       <Reveal as="section" className="section about-numbers" aria-label="Studio in numbers">
