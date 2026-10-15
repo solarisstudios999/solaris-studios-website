@@ -5409,6 +5409,73 @@ html[data-daypart="night"] {
 }
 
 /* ============================================================
+   CASE STUDY SCORECARD
+   The measured numbers, in the same visual language as the
+   studio figures on /about: one large value, one quiet label.
+   Nothing new in the palette or the type scale.
+   ============================================================ */
+
+.case__score {
+  margin: 22px 0 4px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.case__score-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+}
+
+@media (min-width: 1080px) {
+  .case__score-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+.case__score-cell {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  /* minmax(0) so a long note cannot widen the column past its share. */
+  min-width: 0;
+}
+
+.case__score-value {
+  font-family: var(--font-display), "Satoshi", Arial, sans-serif;
+  font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+}
+
+.case__score-label {
+  margin: 0;
+  display: grid;
+  gap: 3px;
+  font-size: var(--t-label);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.case__score-note {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.8125rem;
+  color: rgba(230, 230, 230, 0.62);
+}
+
+.case__score-source {
+  margin-top: 16px;
+  font-size: 0.8125rem;
+  color: rgba(230, 230, 230, 0.62);
+}
+
+/* ============================================================
    TAP TARGETS
    Site-wide, not part of the creative pass: these classes were
    all under the 44px minimum on mobile. .text-link is only ever

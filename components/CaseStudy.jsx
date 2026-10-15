@@ -211,6 +211,29 @@ export default function CaseStudy({ project, priority = false }) {
           ))}
         </dl>
 
+        {/* Numbers before the detail lines: a founder scanning this wants to
+            know whether the thing is fast before they read why. Each figure
+            carries how it was measured, because an unattributed number on a
+            studio's own site is worth nothing. */}
+        {project.scorecard ? (
+          <div className="case__score">
+            <dl className="case__score-grid">
+              {project.scorecard.stats.map((stat) => (
+                <div className="case__score-cell" key={stat.label + stat.value}>
+                  <dt className="case__score-value">{stat.value}</dt>
+                  <dd className="case__score-label">
+                    {stat.label}
+                    <span className="case__score-note">{stat.note}</span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <p className="case__score-source">
+              Measured on the live store with {project.scorecard.measured}. Run it yourself.
+            </p>
+          </div>
+        ) : null}
+
         {project.meta ? (
           <dl className="case__meta">
             {project.meta.map((item) => (
