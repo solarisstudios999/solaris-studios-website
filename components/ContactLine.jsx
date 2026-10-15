@@ -12,6 +12,14 @@ const iconPaths = {
       <circle cx="17" cy="7" r="0.9" fill="currentColor" stroke="none" />
     </>
   ),
+  linkedin: (
+    <>
+      <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" />
+      <circle cx="8" cy="8.1" r="0.9" fill="currentColor" stroke="none" />
+      <path d="M8 10.9V17" />
+      <path d="M11.7 17v-6.1m0 2.3a2.3 2.3 0 0 1 4.6 0V17" />
+    </>
+  ),
   location: (
     <>
       <path d="M12 21c4-4.5 7-8 7-11a7 7 0 1 0-14 0c0 3 3 6.5 7 11Z" />

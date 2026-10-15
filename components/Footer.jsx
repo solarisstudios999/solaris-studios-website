@@ -45,6 +45,9 @@ export default function Footer() {
         <ContactLine as="a" icon="instagram" href={studio.instagramUrl} target="_blank" rel="noreferrer">
           {studio.instagram}
         </ContactLine>
+        <ContactLine as="a" icon="linkedin" href={studio.linkedinUrl} target="_blank" rel="noreferrer">
+          {studio.linkedin}
+        </ContactLine>
         <ContactLine as="a" icon="whatsapp" href={studio.whatsappHref} target="_blank" rel="noreferrer">
           {studio.phone}
         </ContactLine>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import CaseStudy from "@/components/CaseStudy";
-import { projects } from "@/lib/data";
+import { clients, projects } from "@/lib/data";
 
 export const metadata = {
   title: "Work",
@@ -20,11 +20,37 @@ export default function PortfolioPage() {
       </Reveal>
 
       {projects.length > 0 ? (
-        <Reveal as="section" className="section">
-          {projects.map((project, index) => (
-            <CaseStudy key={project.slug} project={project} priority={index === 0} />
-          ))}
-        </Reveal>
+        <>
+          <Reveal as="section" className="section">
+            {projects.map((project, index) => (
+              <CaseStudy key={project.slug} project={project} priority={index === 0} />
+            ))}
+          </Reveal>
+
+          {/* The logos under the hero were four marks and no story. This says
+              what each engagement actually was, so none of them is a name we
+              are borrowing. Written from what the studio did, not dressed up:
+              a product catalogue is a product catalogue. */}
+          <Reveal as="section" className="section also-shipped" aria-labelledby="also-title">
+            <div className="section__head">
+              <p className="eyebrow">Also shipped</p>
+              <h2 id="also-title">The rest of the work.</h2>
+            </div>
+            <dl className="also-shipped__list">
+              {clients
+                .filter((client) => client.work && client.slug !== "aarna")
+                .map((client) => (
+                  <div className="also-shipped__row" key={client.slug}>
+                    <dt>{client.name}</dt>
+                    <dd>
+                      {client.work}
+                      <span className="also-shipped__where">{client.where}</span>
+                    </dd>
+                  </div>
+                ))}
+            </dl>
+          </Reveal>
+        </>
       ) : (
         <Reveal as="section" className="archive-note">
           <p className="eyebrow">Coming soon</p>

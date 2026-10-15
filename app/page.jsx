@@ -7,12 +7,14 @@ import Eclipse from "@/components/Eclipse";
 import Reveal from "@/components/Reveal";
 import SeamlessHeroVideo from "@/components/SeamlessHeroVideo";
 import CaseStudy from "@/components/CaseStudy";
-import { clients, processStages, projects, services, testimonials } from "@/lib/data";
+import { clients, processStages, projects, services, storeTeardown, studio, testimonials } from "@/lib/data";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
 
 export default async function HomePage() {
+  const teardownHref = `${studio.whatsappHref}?text=${encodeURIComponent(storeTeardown.message)}`;
+
   /* Server-side, at build: skip any client whose artwork is not on disk yet,
      and measure the files that are. Reading the real dimensions here rather
      than declaring them in the data means replacing a logo is dropping the new
@@ -41,14 +43,23 @@ export default async function HomePage() {
           <p className="hero__lede">
             A small studio building brand, web, and content systems for founders who want clarity without losing edge.
           </p>
+          {/* The teardown leads. "Start a project" asks a founder who has never
+              met us to commit to a project; a two-minute video asks for a URL.
+              It goes to WhatsApp with the message half-written. */}
           <div className="hero__actions" aria-label="Primary actions">
-            <MagneticButton className="button button--primary" href="/contact">
-              Start a project
+            <MagneticButton
+              className="button button--primary"
+              href={teardownHref}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {storeTeardown.label}
             </MagneticButton>
-            <Link className="button button--ghost" href="/services">
-              Explore services
+            <Link className="button button--ghost" href="/contact">
+              Start a project
             </Link>
           </div>
+          <p className="hero__promise">{storeTeardown.promise}</p>
         </div>
       </section>
 

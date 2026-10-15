@@ -217,6 +217,16 @@ export default function CaseStudy({ project, priority = false }) {
             studio's own site is worth nothing. */}
         {project.scorecard ? (
           <div className="case__score">
+            {project.scorecard.lead ? (
+              <div className="case__score-lead">
+                <span className="case__score-lead-value">{project.scorecard.lead.value}</span>
+                <span className="case__score-lead-label">
+                  {project.scorecard.lead.label}
+                  <span className="case__score-note">{project.scorecard.lead.note}</span>
+                </span>
+              </div>
+            ) : null}
+
             <dl className="case__score-grid">
               {project.scorecard.stats.map((stat) => (
                 <div className="case__score-cell" key={stat.label + stat.value}>
