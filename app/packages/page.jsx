@@ -87,7 +87,9 @@ export default function PackagesPage() {
         <p className="packages__note">
           Rupee prices are for work billed in India. Dollar prices are for work
           billed abroad. One rate across every tier, so the two columns stay in
-          step.
+          step. Build turnarounds run from kickoff, which is the day we have
+          your content, your product photos and the access we need - not the
+          day you pay.
         </p>
       </Reveal>
 
