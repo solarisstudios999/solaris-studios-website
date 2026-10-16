@@ -2,6 +2,14 @@ import { Bricolage_Grotesque } from "next/font/google";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ExperienceEffects from "@/components/ExperienceEffects";
+/* Both are cookieless, so neither needs a consent banner - which is the
+   reason they are here rather than Google Analytics. The site has no banner
+   and sells its own Lighthouse score; GA4 would have required the first and
+   dented the second. Speed Insights earns its place specifically because the
+   studio publishes measured performance numbers as a selling point, and a
+   number from one run in October is not a claim that stays true by itself. */
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { studio } from "@/lib/data";
 import "./globals.css";
 
@@ -122,6 +130,8 @@ export default function RootLayout({ children }) {
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
