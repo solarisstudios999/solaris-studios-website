@@ -5423,13 +5423,14 @@ html[data-daypart="night"] {
   height: var(--planet);
   padding: 0;
   border-radius: 50%;
-  /* A white ring. The marks inside are entirely red now, so the ring is the
-     only thing holding each body against a background that is also red in
-     places - the ray, the lit inner orbits, the glow off the sun. A red
-     outline would have disappeared into all three. */
-  border: 1.5px solid rgba(255, 255, 255, 0.92);
-  /* Opaque enough to read as a body passing in front of its own ring. */
-  background: rgba(7, 7, 7, 0.9);
+  /* A white disc. The marks are red linework with their own white fills
+     stripped out, so the body supplies the ground they were drawn against -
+     which is also what makes each one hold against a background that is
+     itself red in places: the ray, the lit inner orbits, the glow off the
+     sun. The border stays the same colour as the fill so the edge reads as
+     one disc rather than a ring around a lighter centre. */
+  border: 1.5px solid #fff;
+  background: #fff;
   color: var(--muted);
   font: inherit;
   cursor: pointer;
@@ -5437,9 +5438,11 @@ html[data-daypart="night"] {
     transform 250ms var(--ease);
 }
 
+/* Nothing to recolour on a white disc, so the hover is movement and a
+   faint lift away from the page. */
 .orbit__body:hover {
-  border-color: #fff;
   transform: scale(1.06);
+  box-shadow: 0 0 22px rgba(255, 255, 255, 0.22);
 }
 
 /* Lit by a ring, not by a fill. These marks are drawn in red, so flooding
@@ -5451,9 +5454,8 @@ html[data-daypart="night"] {
    itself. Recolouring the ring red would have cost the one piece of
    contrast these all-red marks have. */
 .orbit__body[aria-selected="true"] {
-  border-color: #fff;
-  box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.2),
-    0 0 30px rgba(255, 59, 48, 0.45);
+  box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.28),
+    0 0 32px rgba(255, 59, 48, 0.5);
 }
 
 @media (min-width: 1000px) {
