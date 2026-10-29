@@ -243,17 +243,7 @@ export default function ServiceOrbit({ services = [] }) {
         <p className="orbit__index">
           {String(active + 1).padStart(2, "0")} / {String(services.length).padStart(2, "0")}
         </p>
-        <div className="orbit__heading">
-          <img
-            className="orbit__mark"
-            src={`/assets/icons/${current.slug}.svg`}
-            alt=""
-            aria-hidden="true"
-            width="64"
-            height="64"
-          />
-          <h3 className="orbit__title">{current.title}</h3>
-        </div>
+        <h3 className="orbit__title">{current.title}</h3>
         <p className="orbit__body-copy">{current.body}</p>
         <ul className="orbit__gives">
           {current.deliverables.map((item) => (

@@ -6009,46 +6009,6 @@ html[data-daypart="night"] {
   opacity: 1;
 }
 
-/* The same mark again, beside the heading that explains it. Shown large
-   enough to actually be read - this artwork carries fine linework and, on
-   three of the five, type inside the drawing, none of which survives the
-   size a body on the diagram can be. */
-.orbit__heading {
-  display: flex;
-  align-items: center;
-  gap: clamp(16px, 2.2vw, 26px);
-}
-
-/* The heading can take the width the mark no longer leaves it, so it is
-   allowed to wrap rather than forcing the row wider than the column. */
-.orbit__heading .orbit__title {
-  min-width: 0;
-}
-
-/* The same disc treatment as the bodies, for the same reason: this artwork
-   carries its own white fills, and on a dark ground those read as pale
-   blocks behind the drawing instead of disappearing into it. Padded, so the
-   mark sits inside the circle rather than touching its edge. */
-/* A square, not a disc. The bodies on the diagram are round because they
-   are standing in for planets; this one is standing beside a heading, and a
-   circle there was just the diagram's shape borrowed into a place with no
-   reason for it. Square also stops wasting the corners - a disc has to
-   shrink its artwork to fit a curve, which is most of why this kept looking
-   small.
-
-   The 6px radius is the one already used on .project-visual, so the panel
-   agrees with the rest of the site rather than introducing a third corner. */
-.orbit__mark {
-  width: clamp(96px, 11vw, 148px);
-  height: clamp(96px, 11vw, 148px);
-  flex: none;
-  display: block;
-  box-sizing: border-box;
-  padding: clamp(6px, 0.8vw, 10px);
-  border-radius: 6px;
-  background: #fff;
-}
-
 /* Off the screen, still in the document: the control keeps an accessible
    name, stays reachable by keyboard, and is still found by anyone searching
    the page for the words. */
