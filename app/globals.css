@@ -392,8 +392,25 @@ p {
 .site-atmosphere::before {
   background:
     linear-gradient(115deg, transparent 0 42%, rgba(255, 59, 48, 0.08) 42.2% 42.8%, transparent 43%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.026) 0 1px, transparent 1px 96px),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 96px);
+    /* The grid, at a weight you can actually see.
+
+       It ran at 0.026 and 0.018 under this layer's own 0.8 opacity, so about
+       0.021 and 0.014 reached the screen - under the threshold at which most
+       displays show anything at all, and far fainter than the same motif
+       elsewhere in this file, where the work cards and project visuals sit
+       between 0.05 and 0.16. The grid was the odd one out, not the restrained
+       one.
+
+       0.175 here is 0.14 on screen once the 0.8 is applied, so the number
+       written is the number that lands. The 0.8 stays rather than going to 1
+       because it is also holding the red ray gradient above at its tuned
+       weight.
+
+       Both axes carry the same value now. They used to differ by a third for
+       no reason anyone recorded, and at this weight the imbalance reads as a
+       mistake rather than as depth. */
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.175) 0 1px, transparent 1px 96px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.175) 0 1px, transparent 1px 96px);
   opacity: 0.8;
   animation: atmosphereDrift 24s linear infinite;
 }
