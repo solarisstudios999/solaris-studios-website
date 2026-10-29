@@ -5423,12 +5423,17 @@ html[data-daypart="night"] {
   height: var(--planet);
   padding: 0;
   border-radius: 50%;
-  /* A white disc. The marks are red linework with their own white fills
-     stripped out, so the body supplies the ground they were drawn against -
-     which is also what makes each one hold against a background that is
-     itself red in places: the ray, the lit inner orbits, the glow off the
-     sun. The border stays the same colour as the fill so the edge reads as
-     one disc rather than a ring around a lighter centre. */
+  /* A white disc, carrying the artwork exactly as supplied - red linework
+     over its own white fills. On a dark body those fills read as pale
+     blocks sitting behind the drawing; on a white one they disappear into
+     the ground, which is what they were drawn to do.
+
+     It is also what holds a body against a background that is red in
+     places: the ray, the lit inner orbits, the glow off the sun. Red
+     linework on dark competed with all three; red on white does not.
+
+     The border keeps the fill colour, so the edge reads as one disc rather
+     than a ring around a lighter centre. */
   border: 1.5px solid #fff;
   background: #fff;
   color: var(--muted);
@@ -6014,11 +6019,19 @@ html[data-daypart="night"] {
   gap: clamp(12px, 2vw, 18px);
 }
 
+/* The same disc treatment as the bodies, for the same reason: this artwork
+   carries its own white fills, and on a dark ground those read as pale
+   blocks behind the drawing instead of disappearing into it. Padded, so the
+   mark sits inside the circle rather than touching its edge. */
 .orbit__mark {
   width: clamp(54px, 6vw, 76px);
   height: clamp(54px, 6vw, 76px);
   flex: none;
   display: block;
+  box-sizing: border-box;
+  padding: clamp(7px, 0.9vw, 11px);
+  border-radius: 50%;
+  background: #fff;
 }
 
 /* Off the screen, still in the document: the control keeps an accessible
