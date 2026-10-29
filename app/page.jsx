@@ -76,10 +76,6 @@ export default async function HomePage() {
               Solaris works with founders and teams who want their brand, website, and content to feel
               clear without becoming ordinary.
             </p>
-            <p>
-              We bring structure, taste, and practical execution into one focused process - with the same
-              people from first call to launch.
-            </p>
           </div>
           <div className="brand-principles" aria-label="What we do">
             <span>Position</span>
