@@ -389,37 +389,11 @@ p {
    moves, and this layer is inset -18% - so every mouse move repainted more
    than a viewport of stacked gradients. It now lives on .cursor-glow, which
    only ever changes transform. What is left in here never changes at all. */
-/* The grid, and a four-pointed star sitting on every intersection.
-
-   The lines used to run at 0.026 and 0.018 white, which under this layer's
-   own 0.8 opacity came out around 0.021 and 0.014 - far enough below the
-   threshold that the pattern was effectively invisible, and conspicuously
-   fainter than the same motif elsewhere in this file, where the work cards
-   and project visuals use 0.05 to 0.16. The grid was the odd one out rather
-   than the restrained one. These values are roughly four times the old ones.
-
-   Every alpha here is divided by the layer's 0.8 opacity, so what lands on
-   screen is the number that was actually chosen: 0.110 and 0.085 for the
-   lines, 0.30 for the stars. Keeping the 0.8 rather than setting it to 1
-   leaves the red ray gradient above exactly as it was tuned.
-
-   The star is an inline SVG data URI, so it costs no request and nothing to
-   decode. It tiles at the same 96px as the lines and from the same origin,
-   which is what puts a star precisely on each crossing - drawn at all four
-   corners of the tile so the quarters meet up across tile edges. */
 .site-atmosphere::before {
   background:
     linear-gradient(115deg, transparent 0 42%, rgba(255, 59, 48, 0.08) 42.2% 42.8%, transparent 43%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cpath d='M%200%20-7%20C%200.29%20-2.92%200.88%20-0.88%207%200%20C%200.88%200.88%200.29%202.92%200%207%20C%20-0.29%202.92%20-0.88%200.88%20-7%200%20C%20-0.88%20-0.88%20-0.29%20-2.92%200%20-7%20Z' fill='%23ffffff' fill-opacity='0.375'/%3E%3Cpath d='M%2096%20-7%20C%2096.29%20-2.92%2096.88%20-0.88%20103%200%20C%2096.88%200.88%2096.29%202.92%2096%207%20C%2095.71%202.92%2095.13%200.88%2089%200%20C%2095.13%20-0.88%2095.71%20-2.92%2096%20-7%20Z' fill='%23ffffff' fill-opacity='0.375'/%3E%3Cpath d='M%200%2089%20C%200.29%2093.08%200.88%2095.13%207%2096%20C%200.88%2096.88%200.29%2098.92%200%20103%20C%20-0.29%2098.92%20-0.88%2096.88%20-7%2096%20C%20-0.88%2095.13%20-0.29%2093.08%200%2089%20Z' fill='%23ffffff' fill-opacity='0.375'/%3E%3Cpath d='M%2096%2089%20C%2096.29%2093.08%2096.88%2095.13%20103%2096%20C%2096.88%2096.88%2096.29%2098.92%2096%20103%20C%2095.71%2098.92%2095.13%2096.88%2089%2096%20C%2095.13%2095.13%2095.71%2093.08%2096%2089%20Z' fill='%23ffffff' fill-opacity='0.375'/%3E%3C/svg%3E") 0 0 / 96px 96px,
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.138) 0 1px, transparent 1px 96px),
-    /* 180deg, not 0deg. A 0deg gradient points up, so its repeat anchors to
-       the bottom edge of a box whose height is not a multiple of 96 - which
-       put every horizontal line about 23px off the stars that are supposed
-       to sit on it. Nobody could see that while the lines were invisible and
-       there was nothing on the crossings. 180deg anchors at the top, where
-       the star tile starts. The vertical rule is 90deg and already ran
-       left-to-right, which is why only that axis lined up. */
-    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.106) 0 1px, transparent 1px 96px);
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.026) 0 1px, transparent 1px 96px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 96px);
   opacity: 0.8;
   animation: atmosphereDrift 24s linear infinite;
 }
