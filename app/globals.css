@@ -5888,3 +5888,19 @@ html[data-daypart="night"] {
   gap: 14px;
   margin-top: clamp(18px, 3vw, 24px);
 }
+
+/* Discipline marks in the orbit pills. One square box for all five, so the
+   labels start at the same x whatever the mark inside is doing. `flex: none`
+   stops it being squeezed when a pill runs out of room, and the colour is
+   inherited - which is what carries it onto the red active pill. */
+.orbit__icon {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  color: inherit;
+  opacity: 0.85;
+}
+
+.orbit__body[aria-selected="true"] .orbit__icon {
+  opacity: 1;
+}

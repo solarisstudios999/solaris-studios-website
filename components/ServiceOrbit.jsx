@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import ServiceIcon from "@/components/ServiceIcon";
 import { useRef, useState } from "react";
 
 /**
@@ -215,6 +216,10 @@ export default function ServiceOrbit({ services = [] }) {
               <span className="orbit__dot" aria-hidden="true">
                 {index + 1}
               </span>
+              {/* Decorative: the title beside it is the accessible name, so
+                  the tab is still announced and still found by anyone
+                  searching the page for the words. */}
+              <ServiceIcon className="orbit__icon" slug={service.slug} />
               <span className="orbit__name">{service.title}</span>
             </button>
           );
