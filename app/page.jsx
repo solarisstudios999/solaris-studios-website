@@ -44,8 +44,10 @@ export default async function HomePage() {
             A small studio building brand, web, and content systems for founders who want clarity without losing edge.
           </p>
           {/* The teardown leads. "Start a project" asks a founder who has never
-              met us to commit to a project; a two-minute video asks for a URL.
-              It goes to WhatsApp with the message half-written. */}
+              met us to commit to a project; the teardown asks for a URL. It
+              goes to WhatsApp with the message half-written, so the first
+              reply already carries the business name and a way to reach them
+              somewhere other than WhatsApp. */}
           <div className="hero__actions" aria-label="Primary actions">
             <MagneticButton
               className="button button--primary"
