@@ -419,6 +419,38 @@ p {
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.175) 0 1px, transparent 1px 48px);
   opacity: 0.8;
   animation: atmosphereDrift 24s linear infinite;
+
+  /* The grid dissolves rather than filling the frame. Ruled edge to edge it
+     read as a box drawn over the page - a table the content was sitting in -
+     which is the opposite of the intent. Masked, it is present in a band and
+     thins out either side of it.
+
+     115deg is not a free number: it is the angle of the red ray in the
+     background above, so the band and the ray run parallel instead of
+     crossing at some arbitrary few degrees. The one pool off to the top
+     right stops the band reading as a single hard stripe.
+
+     Two mask layers, so both are declared twice. The unprefixed property
+     only reached Safari in 15.4, and the composite keyword differs between
+     the two syntaxes - `add` in the standard, `source-over` in WebKit's -
+     so neither spelling can be dropped.
+
+     Costs nothing to run. A mask is a compositing operation, not a repaint,
+     which is also why there is no filter or backdrop-filter anywhere near a
+     layer this size. It rides the same translate as the grid, so the band
+     drifts with the pattern rather than sitting stamped on top of it. */
+  --veil: linear-gradient(
+      115deg,
+      transparent 0%,
+      #000 26%,
+      #000 58%,
+      transparent 92%
+    ),
+    radial-gradient(ellipse 50% 55% at 86% 22%, #000 8%, transparent 70%);
+  -webkit-mask-image: var(--veil);
+  mask-image: var(--veil);
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
 }
 
 .site-atmosphere::after {
