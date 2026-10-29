@@ -408,9 +408,15 @@ p {
 
        Both axes carry the same value now. They used to differ by a third for
        no reason anyone recorded, and at this weight the imbalance reads as a
-       mistake rather than as depth. */
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.175) 0 1px, transparent 1px 96px),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.175) 0 1px, transparent 1px 96px);
+       mistake rather than as depth.
+
+       The cell is 48px, and that number is not free to be anything. The
+       layer drifts by translating exactly 96px, so the module has to divide
+       into 96 or the loop stops landing on itself and the pattern visibly
+       jumps once every cycle. 48 goes twice; 64 would not, and would need
+       the keyframe moved with it. */
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.175) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.175) 0 1px, transparent 1px 48px);
   opacity: 0.8;
   animation: atmosphereDrift 24s linear infinite;
 }
