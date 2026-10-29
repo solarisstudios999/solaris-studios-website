@@ -5414,7 +5414,7 @@ html[data-daypart="night"] {
 /* One number for the body size; the mark inside is a fraction of it. Scoped
    to .orbit rather than :root - nothing outside this section needs it, and
    custom properties on :root are inherited by every element in the document. */
-.orbit { --planet: clamp(46px, 4.4vw, 60px); }
+.orbit { --planet: clamp(60px, 5.8vw, 82px); }
 
 .orbit__body {
   display: grid;
@@ -5423,9 +5423,13 @@ html[data-daypart="night"] {
   height: var(--planet);
   padding: 0;
   border-radius: 50%;
-  border: 1px solid var(--line);
+  /* A white ring. The marks inside are entirely red now, so the ring is the
+     only thing holding each body against a background that is also red in
+     places - the ray, the lit inner orbits, the glow off the sun. A red
+     outline would have disappeared into all three. */
+  border: 1.5px solid rgba(255, 255, 255, 0.92);
   /* Opaque enough to read as a body passing in front of its own ring. */
-  background: rgba(7, 7, 7, 0.88);
+  background: rgba(7, 7, 7, 0.9);
   color: var(--muted);
   font: inherit;
   cursor: pointer;
@@ -5434,7 +5438,7 @@ html[data-daypart="night"] {
 }
 
 .orbit__body:hover {
-  border-color: rgba(255, 59, 48, 0.55);
+  border-color: #fff;
   transform: scale(1.06);
 }
 
@@ -5442,10 +5446,14 @@ html[data-daypart="night"] {
    the disc red would swallow the half of each one that is red - which is
    exactly what happened the first time this was tried. The light goes
    round the body instead, and the artwork keeps its own contrast. */
+/* The open body keeps the white ring and gains a halo outside it, so the
+   selected state is light around the disc rather than a change to the disc
+   itself. Recolouring the ring red would have cost the one piece of
+   contrast these all-red marks have. */
 .orbit__body[aria-selected="true"] {
-  border-color: var(--red);
-  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.16),
-    0 0 26px rgba(255, 59, 48, 0.38);
+  border-color: #fff;
+  box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.2),
+    0 0 30px rgba(255, 59, 48, 0.45);
 }
 
 @media (min-width: 1000px) {
@@ -5982,8 +5990,8 @@ html[data-daypart="night"] {
    stops it being squeezed when a pill runs out of room, and the colour is
    inherited - which is what carries it onto the red active pill. */
 .orbit__icon {
-  width: calc(var(--planet) * 0.6);
-  height: calc(var(--planet) * 0.6);
+  width: calc(var(--planet) * 0.64);
+  height: calc(var(--planet) * 0.64);
   display: block;
   opacity: 0.82;
   transition: opacity 250ms var(--ease);
@@ -6005,8 +6013,8 @@ html[data-daypart="night"] {
 }
 
 .orbit__mark {
-  width: clamp(44px, 5vw, 62px);
-  height: clamp(44px, 5vw, 62px);
+  width: clamp(54px, 6vw, 76px);
+  height: clamp(54px, 6vw, 76px);
   flex: none;
   display: block;
 }
