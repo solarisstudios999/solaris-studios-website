@@ -9,6 +9,15 @@ export const metadata = {
 };
 
 export default function PortfolioPage() {
+  /* "Also shipped" is whatever is left after the case studies, worked out
+     rather than listed. It used to exclude Aarna by name, which meant
+     promoting a client to a full case study silently left them in both
+     places - which is exactly what happened the day Earthiva got one. */
+  const studied = new Set(projects.map((project) => project.slug));
+  const alsoShipped = clients.filter(
+    (client) => client.work && !studied.has(client.slug)
+  );
+
   return (
     <>
       <Reveal as="section" className="page-hero">
@@ -37,8 +46,7 @@ export default function PortfolioPage() {
               <h2 id="also-title">The rest of the work.</h2>
             </div>
             <dl className="also-shipped__list">
-              {clients
-                .filter((client) => client.work && client.slug !== "aarna")
+              {alsoShipped
                 .map((client) => (
                   <div className="also-shipped__row" key={client.slug}>
                     <dt>{client.name}</dt>

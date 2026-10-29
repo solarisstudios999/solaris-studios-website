@@ -262,7 +262,7 @@ export default function CaseStudy({ project, priority = false }) {
             target="_blank"
             rel="noreferrer"
           >
-            Visit the live store →
+            {project.cta || "Visit the live store"} →
           </a>
           <Link className="text-link" href="/process">
             See how we work →
