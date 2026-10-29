@@ -5408,33 +5408,44 @@ html[data-daypart="night"] {
 }
 
 /* Mobile: an ordinary pill. Desktop: a body sitting on its ring. */
+/* A body on its orbit, not a label floating beside one. Round, because
+   the thing it is standing in for is round, and because a disc is the only
+   shape that sits on a ring without having to choose an edge to align. */
+/* One number for the body size; the mark inside is a fraction of it. Scoped
+   to .orbit rather than :root - nothing outside this section needs it, and
+   custom properties on :root are inherited by every element in the document. */
+.orbit { --planet: clamp(46px, 4.4vw, 60px); }
+
 .orbit__body {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  min-height: 44px;
-  padding: 0 16px 0 12px;
-  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  width: var(--planet);
+  height: var(--planet);
+  padding: 0;
+  border-radius: 50%;
   border: 1px solid var(--line);
-  background: transparent;
+  /* Opaque enough to read as a body passing in front of its own ring. */
+  background: rgba(7, 7, 7, 0.88);
   color: var(--muted);
   font: inherit;
-  font-size: var(--t-label);
-  font-weight: 600;
-  letter-spacing: var(--track-caps);
-  text-transform: uppercase;
-  text-align: left;
   cursor: pointer;
-  transition: border-color 250ms var(--ease), color 250ms var(--ease),
-    background-color 250ms var(--ease);
+  transition: border-color 250ms var(--ease), box-shadow 250ms var(--ease),
+    transform 250ms var(--ease);
 }
 
-.orbit__body:hover { border-color: rgba(255, 59, 48, 0.5); color: var(--white); }
+.orbit__body:hover {
+  border-color: rgba(255, 59, 48, 0.55);
+  transform: scale(1.06);
+}
 
+/* Lit by a ring, not by a fill. These marks are drawn in red, so flooding
+   the disc red would swallow the half of each one that is red - which is
+   exactly what happened the first time this was tried. The light goes
+   round the body instead, and the artwork keeps its own contrast. */
 .orbit__body[aria-selected="true"] {
-  background: var(--red-cta);
-  border-color: var(--red-cta);
-  color: var(--white);
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.16),
+    0 0 26px rgba(255, 59, 48, 0.38);
 }
 
 @media (min-width: 1000px) {
@@ -5442,22 +5453,15 @@ html[data-daypart="night"] {
     position: absolute;
     left: var(--x);
     top: var(--y);
-    /* The anchor is the dot, not the pill: 10px of padding plus half a
-       9px radius. So the label hangs outward from a marker that sits
-       exactly on the ring, and the beam lands on it. */
-    transform: translate(-19px, -50%);
-    padding: 7px 13px 7px 10px;
-    font-size: 0.72rem;
-    background: rgba(7, 7, 7, 0.82);
-    backdrop-filter: blur(3px);
+    /* Centred on the point, where the old pill hung off to one side of it.
+       A disc has no outward direction to hang in - its centre is the whole
+       of its relationship to the ring, so it sits on the coordinate and
+       the beam lands in the middle of it. */
+    transform: translate(-50%, -50%);
   }
 
-  /* Two lines keeps a label about a fifth of the stage wide, which is
-     what makes five of them fit without ever touching. */
-  .orbit__body .orbit__name {
-    display: block;
-    max-width: 10ch;
-    line-height: 1.25;
+  .orbit__body:hover {
+    transform: translate(-50%, -50%) scale(1.06);
   }
 }
 
@@ -5978,13 +5982,47 @@ html[data-daypart="night"] {
    stops it being squeezed when a pill runs out of room, and the colour is
    inherited - which is what carries it onto the red active pill. */
 .orbit__icon {
-  width: 17px;
-  height: 17px;
-  flex: none;
-  color: inherit;
-  opacity: 0.85;
+  width: calc(var(--planet) * 0.6);
+  height: calc(var(--planet) * 0.6);
+  display: block;
+  opacity: 0.82;
+  transition: opacity 250ms var(--ease);
 }
 
+.orbit__body:hover .orbit__icon,
 .orbit__body[aria-selected="true"] .orbit__icon {
   opacity: 1;
+}
+
+/* The same mark again, beside the heading that explains it. Shown large
+   enough to actually be read - this artwork carries fine linework and, on
+   three of the five, type inside the drawing, none of which survives the
+   size a body on the diagram can be. */
+.orbit__heading {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 18px);
+}
+
+.orbit__mark {
+  width: clamp(44px, 5vw, 62px);
+  height: clamp(44px, 5vw, 62px);
+  flex: none;
+  display: block;
+}
+
+/* Off the screen, still in the document: the control keeps an accessible
+   name, stays reachable by keyboard, and is still found by anyone searching
+   the page for the words. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
 }

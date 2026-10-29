@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import ServiceIcon from "@/components/ServiceIcon";
 import { useRef, useState } from "react";
 
 /**
@@ -213,14 +212,22 @@ export default function ServiceOrbit({ services = [] }) {
               style={{ "--x": `${x}%`, "--y": `${y}%` }}
               onClick={() => setActive(index)}
             >
-              <span className="orbit__dot" aria-hidden="true">
-                {index + 1}
-              </span>
-              {/* Decorative: the title beside it is the accessible name, so
-                  the tab is still announced and still found by anyone
-                  searching the page for the words. */}
-              <ServiceIcon className="orbit__icon" slug={service.slug} />
-              <span className="orbit__name">{service.title}</span>
+              {/* A disc with the discipline's mark on it - a body on its
+                  orbit, not a label floating beside one. The title comes
+                  off the screen but not out of the document: it stays as
+                  the tab's accessible name, so the control is still
+                  announced, still reachable by keyboard, and still found
+                  by anyone searching the page for the words. */}
+              <img
+                className="orbit__icon"
+                src={`/assets/icons/${service.slug}.svg`}
+                alt=""
+                aria-hidden="true"
+                width="40"
+                height="40"
+                loading="lazy"
+              />
+              <span className="visually-hidden">{service.title}</span>
             </button>
           );
         })}
@@ -236,7 +243,17 @@ export default function ServiceOrbit({ services = [] }) {
         <p className="orbit__index">
           {String(active + 1).padStart(2, "0")} / {String(services.length).padStart(2, "0")}
         </p>
-        <h3 className="orbit__title">{current.title}</h3>
+        <div className="orbit__heading">
+          <img
+            className="orbit__mark"
+            src={`/assets/icons/${current.slug}.svg`}
+            alt=""
+            aria-hidden="true"
+            width="64"
+            height="64"
+          />
+          <h3 className="orbit__title">{current.title}</h3>
+        </div>
         <p className="orbit__body-copy">{current.body}</p>
         <ul className="orbit__gives">
           {current.deliverables.map((item) => (
