@@ -4503,6 +4503,18 @@ body:has(.contact-screen) {
   padding-block: clamp(20px, 2.6vw, 28px);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+  /* A backdrop, because the grid behind this band now has real weight and
+     these are client marks - mostly fine strokes and thin type, several of
+     them light grey. Ruled lines crossing a wordmark read as part of the
+     wordmark, which is the one thing a logo strip cannot afford.
+
+     Translucent rather than solid: the band already has a rule top and
+     bottom, so it reads as deliberate, and letting a little of the pattern
+     through keeps it sitting in the page instead of looking like a panel
+     pasted over it. No backdrop-filter - a blur here would cost a real
+     repaint on a layer that spans the viewport, and this buys the same
+     separation for nothing. */
+  background: rgba(4, 4, 4, 0.72);
 }
 
 /* Crops the marquee. Nothing else clips, so the row cannot bleed into the
