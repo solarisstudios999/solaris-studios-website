@@ -5997,8 +5997,8 @@ html[data-daypart="night"] {
    stops it being squeezed when a pill runs out of room, and the colour is
    inherited - which is what carries it onto the red active pill. */
 .orbit__icon {
-  width: calc(var(--planet) * 0.64);
-  height: calc(var(--planet) * 0.64);
+  width: calc(var(--planet) * 0.82);
+  height: calc(var(--planet) * 0.82);
   display: block;
   opacity: 0.82;
   transition: opacity 250ms var(--ease);
@@ -6024,12 +6024,16 @@ html[data-daypart="night"] {
    blocks behind the drawing instead of disappearing into it. Padded, so the
    mark sits inside the circle rather than touching its edge. */
 .orbit__mark {
-  width: clamp(54px, 6vw, 76px);
-  height: clamp(54px, 6vw, 76px);
+  width: clamp(62px, 6.8vw, 88px);
+  height: clamp(62px, 6.8vw, 88px);
   flex: none;
   display: block;
   box-sizing: border-box;
-  padding: clamp(7px, 0.9vw, 11px);
+  /* Just enough to keep the drawing off the curve. The ring of white around
+     the art is margin, not a border - every pixel of it is width the mark
+     itself is not using, so it stays at the minimum that still reads as a
+     disc rather than as a cropped square. */
+  padding: clamp(3px, 0.4vw, 5px);
   border-radius: 50%;
   background: #fff;
 }
