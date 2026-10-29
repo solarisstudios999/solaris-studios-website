@@ -4495,6 +4495,10 @@ body:has(.contact-screen) {
   /* Shared by the row and by the trailing gap each copy carries in the
      marquee - they have to be the same number or the loop jolts. */
   --logo-gap: clamp(20px, 4vw, 56px);
+  /* How far in from each edge the row has finished appearing. Held here with
+     the other shared measurements rather than inside the mask, so the fade
+     and the gap can be reasoned about together. */
+  --fade: clamp(24px, 6%, 84px);
   width: min(var(--max), calc(100% - var(--page-pad) * 2));
   margin: 0 auto;
   /* Tighter than the proof bar it replaced. Four big numbers earned a deep
@@ -4521,6 +4525,34 @@ body:has(.contact-screen) {
    hero above or the section below. */
 .clients__viewport {
   overflow: hidden;
+  /* Both edges fade out, so marks enter and leave instead of being cut in
+     half by the boundary. It matters most while the marquee is running -
+     a logo sliced by a hard edge reads as a rendering fault rather than as
+     motion - but it is just as right when the row fits and sits still.
+
+     Masked here rather than on .clients, so only the content fades: the
+     band keeps its rule top and bottom and its backdrop runs the full
+     width. A gradient overlay would have been the other way to do this,
+     and it would have had to know the exact colour behind it - which
+     changes with the daypart accent. A mask does not care.
+
+     Prefixed as well as not: unprefixed mask-image only reached Safari in
+     15.4, and this site has already been bitten once by assuming WebKit
+     and Chromium agree. */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 var(--fade),
+    #000 calc(100% - var(--fade)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 var(--fade),
+    #000 calc(100% - var(--fade)),
+    transparent 100%
+  );
 }
 
 .clients__track {
