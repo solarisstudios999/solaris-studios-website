@@ -4530,7 +4530,7 @@ body:has(.contact-screen) {
   /* How far in from each edge the row has finished appearing. Held here with
      the other shared measurements rather than inside the mask, so the fade
      and the gap can be reasoned about together. */
-  --fade: clamp(24px, 6%, 84px);
+  --fade: clamp(48px, 14%, 190px);
   width: min(var(--max), calc(100% - var(--page-pad) * 2));
   margin: 0 auto;
   /* Tighter than the proof bar it replaced. Four big numbers earned a deep
@@ -4551,26 +4551,18 @@ body:has(.contact-screen) {
      repaint on a layer that spans the viewport, and this buys the same
      separation for nothing. */
   background: rgba(4, 4, 4, 0.72);
-}
 
-/* Crops the marquee. Nothing else clips, so the row cannot bleed into the
-   hero above or the section below. */
-.clients__viewport {
-  overflow: hidden;
-  /* Both edges fade out, so marks enter and leave instead of being cut in
-     half by the boundary. It matters most while the marquee is running -
-     a logo sliced by a hard edge reads as a rendering fault rather than as
-     motion - but it is just as right when the row fits and sits still.
+  /* The band dissolves at both ends instead of stopping dead.
 
-     Masked here rather than on .clients, so only the content fades: the
-     band keeps its rule top and bottom and its backdrop runs the full
-     width. A gradient overlay would have been the other way to do this,
-     and it would have had to know the exact colour behind it - which
-     changes with the daypart accent. A mask does not care.
+     Masked on .clients rather than on the scroller inside it, because the
+     hard edge that reads as a box is the backdrop's edge and the two rules
+     running into it - not the logos. Masking the content left all three of
+     those untouched. Here, everything the band is made of fades on the same
+     ramp, so the strip ends by running out rather than by being cut.
 
-     Prefixed as well as not: unprefixed mask-image only reached Safari in
-     15.4, and this site has already been bitten once by assuming WebKit
-     and Chromium agree. */
+     Both spellings: unprefixed mask-image only reached Safari in 15.4, and
+     this file has been caught once already assuming WebKit and Chromium
+     agree about a paint property. */
   -webkit-mask-image: linear-gradient(
     90deg,
     transparent 0,
@@ -4585,6 +4577,16 @@ body:has(.contact-screen) {
     #000 calc(100% - var(--fade)),
     transparent 100%
   );
+}
+
+/* Crops the marquee. Nothing else clips, so the row cannot bleed into the
+   hero above or the section below. */
+.clients__viewport {
+  overflow: hidden;
+  /* No mask here. It used to fade the logos while leaving the band they sit
+     in as a hard-edged rectangle, which fixed the smaller half of the
+     problem and left the visible one. The whole band is masked instead -
+     see .clients. */
 }
 
 .clients__track {
